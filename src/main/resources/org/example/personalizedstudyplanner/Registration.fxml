@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.personalizedstudyplanner.controllers.RegistrationController"
+            stylesheets="@style.css"
+            styleClass="anchor-pane">
+    <children>
+        <Label text="Register for the Study Planner"
+               layoutX="200" layoutY="30"
+               prefWidth="400"
+               styleClass="title"/>
+
+        <Label text="Email:"
+               layoutX="300" layoutY="120"
+               styleClass="label"/>
+        <TextField fx:id="emailField"
+                   layoutX="300" layoutY="150"
+                   prefWidth="200"
+                   styleClass="text-field"/>
+
+        <Label text="Password:"
+               layoutX="300" layoutY="200"
+               styleClass="label"/>
+        <PasswordField fx:id="passwordField"
+                       layoutX="300" layoutY="230"
+                       prefWidth="200"
+                       styleClass="password-field"/>
+
+        <Button text="Register"
+                layoutX="320" layoutY="300"
+                styleClass="button"
+                onAction="#handleRegister"/>
+        <Button text="Back to Login"
+                layoutX="420" layoutY="300"
+                styleClass="button"
+                onAction="#goToLogin"/>
+    </children>
+</AnchorPane>

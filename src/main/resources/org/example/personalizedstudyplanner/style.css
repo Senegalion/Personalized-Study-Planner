@@ -1,0 +1,44 @@
+.anchor-pane {
+    -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C2E9FB);
+}
+
+.title {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 24px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 10;
+}
+
+.label {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+}
+
+.button {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.button:hover {
+    -fx-background-color: #45A049;
+}
+
+.text-field,
+.password-field {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 4;
+    -fx-padding: 5 10;
+}
+
+ó

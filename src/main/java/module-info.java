@@ -7,4 +7,6 @@ module org.example.personalizedstudyplanner {
 
     opens org.example.personalizedstudyplanner to javafx.fxml;
     exports org.example.personalizedstudyplanner;
+    exports org.example.personalizedstudyplanner.controllers;
+    opens org.example.personalizedstudyplanner.controllers to javafx.fxml;
 }

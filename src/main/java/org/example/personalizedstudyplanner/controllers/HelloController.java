@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner;
+package org.example.personalizedstudyplanner.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
