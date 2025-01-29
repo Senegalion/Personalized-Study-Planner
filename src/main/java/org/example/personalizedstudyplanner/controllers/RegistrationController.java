@@ -14,6 +14,15 @@ import java.util.Objects;
 public class RegistrationController {
 
     @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField surnameField;
+
+    @FXML
+    private TextField peselField;
+
+    @FXML
     private TextField emailField;
 
     @FXML
@@ -21,10 +30,13 @@ public class RegistrationController {
 
     @FXML
     public void handleRegister(ActionEvent event) {
+        String name = nameField.getText();
+        String surname = surnameField.getText();
+        String pesel = peselField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        System.out.println("Registered: " + email);
+        System.out.println("Registered: " + name + " " + surname + " (" + email + "), PESEL: " + pesel);
     }
 
     @FXML
