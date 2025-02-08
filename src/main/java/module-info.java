@@ -4,6 +4,7 @@ module org.example.personalizedstudyplanner {
 
     requires org.controlsfx.controls;
     requires net.synedra.validatorfx;
+    requires java.sql;
 
     opens org.example.personalizedstudyplanner to javafx.fxml;
     exports org.example.personalizedstudyplanner;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.personalizedstudyplanner.controllers.CreateStudyPlanController">
+
+    <Label text="Create New Study Plan" style="-fx-font-size: 24px;"/>
+
+    <TextField fx:id="titleField" promptText="Enter Study Plan Title" style="-fx-font-size: 16px;"/>
+
+    <TextArea fx:id="descriptionField" promptText="Enter Study Plan Description" style="-fx-font-size: 16px;"
+              prefHeight="100" wrapText="true"/>
+
+    <Button text="Create Study Plan" onAction="#handleCreateStudyPlan" style="-fx-font-size: 16px;"/>
+
+    <Button text="Cancel" onAction="#goBack" style="-fx-font-size: 16px;"/>
+
+</VBox>

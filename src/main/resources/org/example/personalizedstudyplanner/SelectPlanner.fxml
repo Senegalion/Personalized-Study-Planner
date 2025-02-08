@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.ListView?>
+<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.personalizedstudyplanner.controllers.SelectPlannerController">
+    <Label text="Select Your Existing Study Planner"/>
+    <ListView fx:id="plannerListView" prefWidth="300" prefHeight="200"/>
+
+    <Button text="Select Planner" onAction="#handleSelectPlanner"/>
+    <Button text="Delete Planner" onAction="#handleDeletePlanner"/>
+    <Button text="Back to Dashboard" onAction="#goBack"/>
+</VBox>

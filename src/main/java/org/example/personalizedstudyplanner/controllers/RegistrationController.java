@@ -5,10 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.personalizedstudyplanner.database.DatabaseUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Objects;
 
 public class RegistrationController {
@@ -36,7 +40,41 @@ public class RegistrationController {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        System.out.println("Registered: " + name + " " + surname + " (" + email + "), PESEL: " + pesel);
+        if (name.isEmpty() || surname.isEmpty() || pesel.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            showAlert("Error", "All fields must be filled!");
+            return;
+        }
+
+        String sql = "INSERT INTO student (name, surname, pesel, email, password) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseUtil.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, name);
+            stmt.setString(2, surname);
+            stmt.setString(3, pesel);
+            stmt.setString(4, email);
+            stmt.setString(5, password);
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                showAlert("Success", "Registration successful!");
+            } else {
+                showAlert("Error", "Registration failed!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Database error!");
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
