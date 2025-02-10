@@ -53,7 +53,7 @@ public class CalendarController {
 
         for (int i = 0; i < 7; i++) {
             RowConstraints row = new RowConstraints();
-            row.setMinHeight(50);
+            row.setMinHeight(80);
             calendarGrid.getRowConstraints().add(row);
         }
 
@@ -71,17 +71,22 @@ public class CalendarController {
 
         for (int day = 1; day <= today.lengthOfMonth(); day++) {
             LocalDate date = today.withDayOfMonth(day);
-            Button dayButton = new Button(String.valueOf(day));
-            dayButton.setPrefSize(80, 60);
+
+            VBox dayBox = new VBox();
+            dayBox.setPrefSize(100, 80);
+            dayBox.setStyle("-fx-border-color: black; -fx-padding: 5px; -fx-background-color: #f0f0f0;");
+
+            Label dayLabel = new Label(String.valueOf(day));
+            dayLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
             String eventText = getEventsForDay(date);
-            if (!eventText.isEmpty()) {
-                dayButton.setStyle("-fx-background-color: #ffcccb; -fx-font-weight: bold;");
-                dayButton.setText(day + "\n📌");
-            }
+            Label eventLabel = new Label(eventText.isEmpty() ? "No Events" : eventText);
+            eventLabel.setWrapText(true);
 
-            dayButton.setOnAction(e -> showAddEventDialog(date));
-            calendarGrid.add(dayButton, column, row);
+            dayBox.getChildren().addAll(dayLabel, eventLabel);
+            dayBox.setOnMouseClicked(e -> showAddEventDialog(date));
+
+            calendarGrid.add(dayBox, column, row);
 
             column++;
             if (column == 7) {

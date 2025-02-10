@@ -8,9 +8,11 @@
 
     <Label text="📅 Study Plan Calendar" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-    <GridPane fx:id="calendarGrid" hgap="5" vgap="5"
-              style="-fx-border-color: black; -fx-padding: 10;"
-              alignment="CENTER"/>
+    <ScrollPane fitToWidth="true" fitToHeight="true">
+        <GridPane fx:id="calendarGrid" hgap="5" vgap="5"
+                  style="-fx-border-color: black; -fx-padding: 10;"
+                  alignment="CENTER"/>
+    </ScrollPane>
 
     <Button text="Go Back" onAction="#handleBack" style="-fx-background-color: lightblue;"/>
 </VBox>
