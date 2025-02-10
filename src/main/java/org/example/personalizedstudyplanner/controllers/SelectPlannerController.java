@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.services.StudyPlanService;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -55,7 +56,7 @@ public class SelectPlannerController {
     }
 
     @FXML
-    public void handleSelectPlanner(ActionEvent event) {
+    public void handleSelectPlanner(ActionEvent event) throws IOException {
         StudyPlan selectedPlanner = plannerListView.getSelectionModel().getSelectedItem();
 
         if (selectedPlanner != null) {
@@ -64,6 +65,15 @@ public class SelectPlannerController {
             alert.setHeaderText(null);
             alert.setContentText("You selected: " + selectedPlanner);
             alert.showAndWait();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/personalizedstudyplanner/CalendarView.fxml"));
+            Parent root = loader.load();
+
+            CalendarController controller = loader.getController();
+            controller.setStudyPlanId(selectedPlanner.getStudyPlanId());
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 600));
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Selection Error");
