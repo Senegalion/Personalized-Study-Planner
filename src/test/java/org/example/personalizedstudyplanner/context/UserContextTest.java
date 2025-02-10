@@ -1,6 +1,5 @@
-package org.example.personalizedstudyplanner.context.context;
+package org.example.personalizedstudyplanner.context;
 
-import org.example.personalizedstudyplanner.context.UserContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

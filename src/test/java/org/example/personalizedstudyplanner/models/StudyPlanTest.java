@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.models;
+package org.example.personalizedstudyplanner.models;
 
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.junit.jupiter.api.Test;
