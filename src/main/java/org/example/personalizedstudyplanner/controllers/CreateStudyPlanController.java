@@ -17,12 +17,12 @@ import java.util.Objects;
 
 public class CreateStudyPlanController {
     @FXML
-    private TextField titleField;
+    TextField titleField;
 
     @FXML
-    private TextArea descriptionField;
+    TextArea descriptionField;
 
-    private final StudyPlanService studyPlanService;
+    StudyPlanService studyPlanService;
 
     public CreateStudyPlanController() {
         this.studyPlanService = new StudyPlanService();
