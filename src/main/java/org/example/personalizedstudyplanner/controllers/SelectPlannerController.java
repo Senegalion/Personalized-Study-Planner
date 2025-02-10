@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.services.StudyPlanService;
 
@@ -69,8 +70,8 @@ public class SelectPlannerController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/personalizedstudyplanner/CalendarView.fxml"));
             Parent root = loader.load();
 
-            CalendarController controller = loader.getController();
-            controller.setStudyPlanId(selectedPlanner.getStudyPlanId());
+            StudyPlanContext.setCurrentStudyPlanId(selectedPlanner.getStudyPlanId());
+            System.out.println("Study Plan ID 1: " + StudyPlanContext.getCurrentStudyPlanId());
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, 800, 600));

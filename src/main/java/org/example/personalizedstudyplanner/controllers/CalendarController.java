@@ -1,5 +1,6 @@
 package org.example.personalizedstudyplanner.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.services.StudyEventService;
 
@@ -29,18 +31,23 @@ public class CalendarController {
     private VBox mainContainer;
 
     private final StudyEventService studyEventService = new StudyEventService();
-    private int studyPlanId;
 
     @FXML
     public void initialize() {
-        try {
-            generateCalendar();
-        } catch (SQLException e) {
-            showErrorAlert("Failed to load calendar.");
-        }
+        Platform.runLater(() -> {
+            try {
+                generateCalendar();
+            } catch (SQLException e) {
+                showErrorAlert("Failed to load calendar.");
+            }
+        });
     }
 
     private void generateCalendar() throws SQLException {
+        if (calendarGrid == null) {
+            System.err.println("Error: calendarGrid is null!");
+            return;
+        }
         calendarGrid.getChildren().clear();
         calendarGrid.getColumnConstraints().clear();
         calendarGrid.getRowConstraints().clear();
@@ -84,7 +91,7 @@ public class CalendarController {
             eventLabel.setWrapText(true);
 
             dayBox.getChildren().addAll(dayLabel, eventLabel);
-            dayBox.setOnMouseClicked(e -> showAddEventDialog(date));
+            dayBox.setOnMouseClicked(e -> openDailyView(date));
 
             calendarGrid.add(dayBox, column, row);
 
@@ -93,6 +100,24 @@ public class CalendarController {
                 column = 0;
                 row++;
             }
+        }
+    }
+
+    private void openDailyView(LocalDate date) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/personalizedstudyplanner/DailyView.fxml"));
+            Parent root = loader.load();
+
+            DailyViewController controller = loader.getController();
+            controller.setDate(date, StudyPlanContext.getCurrentStudyPlanId());
+
+            Stage stage = new Stage();
+            stage.setTitle("Daily View - " + date);
+            stage.setScene(new Scene(root, 400, 400));
+            stage.show();
+        } catch (Exception e) {
+            showErrorAlert("Failed to open daily view.");
+            e.printStackTrace();
         }
     }
 
@@ -109,14 +134,7 @@ public class CalendarController {
         return sb.toString();
     }
 
-    private void showAddEventDialog(LocalDate date) {
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("Assignment", "Assignment", "Exam", "Class Schedule");
-        dialog.setTitle("Add Event");
-        dialog.setHeaderText("Select Event Type:");
-        dialog.showAndWait().ifPresent(choice -> openEventForm(date, choice));
-    }
-
-    private void openEventForm(LocalDate date, String eventType) {
+    void openEventForm(LocalDate date, String eventType) {
         Dialog<List<String>> dialog = new Dialog<>();
         dialog.setTitle("Add " + eventType);
         dialog.setHeaderText("Enter details for the " + eventType);
@@ -220,13 +238,13 @@ public class CalendarController {
 
                 switch (eventType) {
                     case "Assignment":
-                        studyEventService.addAssignment(new Assignment(0, studyPlanId, title, description, eventDate, AssignmentStatus.PENDING));
+                        studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING));
                         break;
                     case "Exam":
-                        studyEventService.addExam(new Exam(0, studyPlanId, title, eventDate, 0), address);
+                        studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0), address);
                         break;
                     case "Class Schedule":
-                        studyEventService.addClassSchedule(new ClassSchedule(0, studyPlanId, "Monday", title, eventDate, eventDate.plusHours(1), 0, result.get(7)), address);
+                        studyEventService.addClassSchedule(new ClassSchedule(0, StudyPlanContext.getCurrentStudyPlanId(), "Monday", title, eventDate, eventDate.plusHours(1), 0, result.get(7)), address);
                         break;
                 }
                 generateCalendar();
@@ -250,9 +268,5 @@ public class CalendarController {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/SelectPlanner.fxml")));
         stage.setScene(new Scene(root, 800, 600));
-    }
-
-    public void setStudyPlanId(int studyPlanId) {
-        this.studyPlanId = studyPlanId;
     }
 }
