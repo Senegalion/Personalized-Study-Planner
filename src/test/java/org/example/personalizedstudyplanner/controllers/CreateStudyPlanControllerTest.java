@@ -3,6 +3,8 @@ package org.example.personalizedstudyplanner.controllers;
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreateStudyPlanControllerTest {
     private CreateStudyPlanController controller;
+
 
     @BeforeEach
     void setUp() throws InterruptedException {
@@ -27,6 +30,7 @@ class CreateStudyPlanControllerTest {
 
         latch.await(5, TimeUnit.SECONDS);
     }
+
 
     @Test
     void testHandleCreateStudyPlan_EmptyFields_ShouldShowError() throws InterruptedException {
