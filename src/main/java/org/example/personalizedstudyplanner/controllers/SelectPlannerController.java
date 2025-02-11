@@ -23,9 +23,9 @@ import java.util.Objects;
 public class SelectPlannerController {
 
     @FXML
-    private ListView<StudyPlan> plannerListView;
+    ListView<StudyPlan> plannerListView;
 
-    private final StudyPlanService studyPlanService = new StudyPlanService();
+    StudyPlanService studyPlanService = new StudyPlanService();
     private ObservableList<StudyPlan> observablePlanners;
 
     @FXML
