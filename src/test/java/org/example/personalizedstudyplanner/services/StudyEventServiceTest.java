@@ -24,7 +24,6 @@ class StudyEventServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Using a test repository implementation instead of mocking
         testRepository = new TestStudyEventRepository();
         try {
             java.lang.reflect.Field field = StudyEventService.class.getDeclaredField("studyEventRepository");
