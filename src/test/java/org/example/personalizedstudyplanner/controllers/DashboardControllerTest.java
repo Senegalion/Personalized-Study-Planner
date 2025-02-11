@@ -19,16 +19,6 @@ class DashboardControllerTest {
     private DashboardController controller;
     private ActionEvent mockEvent;
 
-    private static boolean initialized = false;
-    @BeforeAll
-    static void initToolkit() throws InterruptedException {
-        if (!initialized) {
-            CountDownLatch latch = new CountDownLatch(1);
-            Platform.startup(latch::countDown);
-            latch.await(5, TimeUnit.SECONDS);
-            initialized = true;
-        }
-    }
 
     @BeforeEach
     void setUp() throws InterruptedException {
@@ -48,12 +38,6 @@ class DashboardControllerTest {
         latch.await(5, TimeUnit.SECONDS);
     }
 
-    @AfterAll
-    static void closeToolkit() {
-        if (initialized) {
-            Platform.exit(); // Close JavaFX Application Thread
-        }
-    }
 
 
 
