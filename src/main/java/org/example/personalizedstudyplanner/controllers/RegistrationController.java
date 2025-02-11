@@ -18,19 +18,19 @@ import java.util.Objects;
 public class RegistrationController {
 
     @FXML
-    private TextField nameField;
+    TextField nameField;
 
     @FXML
-    private TextField surnameField;
+    TextField surnameField;
 
     @FXML
-    private TextField peselField;
+    TextField peselField;
 
     @FXML
-    private TextField emailField;
+    TextField emailField;
 
     @FXML
-    private PasswordField passwordField;
+    PasswordField passwordField;
 
     @FXML
     public void handleRegister(ActionEvent event) {
