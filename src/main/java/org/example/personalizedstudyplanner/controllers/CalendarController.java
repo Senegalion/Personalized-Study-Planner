@@ -121,7 +121,7 @@ public class CalendarController {
         }
     }
 
-    private String getEventsForDay(LocalDate date) throws SQLException {
+    protected String getEventsForDay(LocalDate date) throws SQLException {
         List<Assignment> assignments = studyEventService.getAssignmentsForDate(date);
         List<Exam> exams = studyEventService.getExamsForDate(date);
         List<ClassSchedule> classes = studyEventService.getClassesForDate(date);
