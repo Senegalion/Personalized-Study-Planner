@@ -24,6 +24,10 @@ public class StudyPlanService {
         }
     }
 
+    public StudyPlanService(StudyPlanRepository studyPlanRepository) {
+        this.studyPlanRepository = studyPlanRepository;
+    }
+
     public List<StudyPlan> getAllStudyPlans() throws SQLException {
         int currentUserId = UserContext.getCurrentUserId();
         List<StudyPlan> studyPlans = studyPlanRepository.findAllStudyPlans();
