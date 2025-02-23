@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DatabaseUtil {
-    private static final String URL = "jdbc:postgresql://localhost:5432/personalized_study_planner";
+//    for testing
+    private static String URL = "jdbc:postgresql://localhost:5432/personalized_study_planner";
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
 
@@ -15,5 +16,10 @@ public class DatabaseUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+//    For testing
+    public static void setUrlForTesting(String url) {
+        URL = url;
     }
 }
