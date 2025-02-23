@@ -16,12 +16,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CreateStudyPlanControllerTest {
     private CreateStudyPlanController controller;
 
+    @BeforeAll
+    static void initJavaFX() throws InterruptedException {
+        JavaFXTestUtil.initJavaFX(); // Centralized initialization
+    }
 
     @BeforeEach
     void setUp() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
 
-        Platform.startup(() -> {
+        Platform.runLater(() -> {
             controller = new CreateStudyPlanController();
             controller.setTitleField(new TextField());
             controller.setDescriptionField(new TextArea());
@@ -31,7 +35,6 @@ class CreateStudyPlanControllerTest {
         latch.await(5, TimeUnit.SECONDS);
     }
 
-
     @Test
     void testHandleCreateStudyPlan_EmptyFields_ShouldShowError() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
@@ -39,15 +42,16 @@ class CreateStudyPlanControllerTest {
         Platform.runLater(() -> {
             controller.getTitleField().setText("");
             controller.getDescriptionField().setText("");
-
             assertTrue(controller.getTitleField().getText().isEmpty());
             assertTrue(controller.getDescriptionField().getText().isEmpty());
-
             latch.countDown();
         });
 
-
         latch.await(5, TimeUnit.SECONDS);
     }
-}
 
+    @AfterAll
+    static void tearDown() {
+        JavaFXTestUtil.shutdownJavaFX(); // Centralized shutdown
+    }
+}

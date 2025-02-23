@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,16 @@ class DashboardControllerTest {
     private DashboardController controller;
     private ActionEvent mockEvent;
 
+    @BeforeAll
+    static void setUpClass() throws InterruptedException {
+        JavaFXTestUtil.initJavaFX();
+    }
 
     @BeforeEach
     void setUp() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
 
-        Platform.startup(() -> {
+        Platform.runLater(() -> {
             controller = new DashboardController();
             Button button = new Button();
             Stage stage = new Stage();
@@ -37,9 +40,6 @@ class DashboardControllerTest {
 
         latch.await(5, TimeUnit.SECONDS);
     }
-
-
-
 
     @Test
     void testHandleSelectPlanner_ShouldNotThrowException() {

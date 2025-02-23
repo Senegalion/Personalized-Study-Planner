@@ -32,4 +32,5 @@ class UserContextTest {
         Exception exception = assertThrows(IllegalStateException.class, UserContext::getCurrentUserId);
         assertEquals("No user is currently logged in.", exception.getMessage());
     }
+
 }

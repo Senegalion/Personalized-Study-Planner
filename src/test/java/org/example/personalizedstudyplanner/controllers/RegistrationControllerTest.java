@@ -3,6 +3,8 @@ package org.example.personalizedstudyplanner.controllers;
 import javafx.application.Platform;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class RegistrationControllerTest {
     private RegistrationController controller;
 
+    @BeforeAll
+    static void initJavaFX() throws InterruptedException {
+        JavaFXTestUtil.initJavaFX(); // Initialize JavaFX once for all tests
+    }
+
     @BeforeEach
     void setUp() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
 
-        Platform.startup(() -> {
+        Platform.runLater(() -> {
             controller = new RegistrationController();
 
             try {
@@ -39,10 +46,15 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void testHandleRegister_ShouldNotThrowException() {
+    void testHandleRegister_ShouldNotThrowException() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+
         Platform.runLater(() -> {
             assertDoesNotThrow(() -> controller.handleRegister(null));
+            latch.countDown();
         });
+
+        latch.await(5, TimeUnit.SECONDS); // Wait for assertion to complete
     }
 
     private void setPrivateField(Object object, String fieldName, Object value) throws Exception {
@@ -51,4 +63,8 @@ class RegistrationControllerTest {
         field.set(object, value);
     }
 
+    @AfterAll
+    static void tearDown() {
+        JavaFXTestUtil.shutdownJavaFX(); // Clean up JavaFX
+    }
 }

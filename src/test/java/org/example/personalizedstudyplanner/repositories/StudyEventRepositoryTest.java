@@ -2,6 +2,7 @@ package org.example.personalizedstudyplanner.repositories;
 
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories_implementations.StudyEventRepositoryImplementation;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,9 +20,15 @@ class StudyEventRepositoryTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/personalized_study_planner", "postgres", "postgres");
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/personalized_study_planner", "postgres", "dmbonloz123");
         studyEventRepository = new StudyEventRepositoryImplementation(connection);
+    }
 
+    @AfterEach
+    void tearDown() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
     }
 
     @Test
@@ -45,5 +51,4 @@ class StudyEventRepositoryTest {
         List<ClassSchedule> classes = studyEventRepository.getClassesForDate(date);
         assertNotNull(classes);
     }
-
 }

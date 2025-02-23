@@ -55,4 +55,6 @@ class StudyPlanServiceTest {
         studyPlans = studyPlanService.getAllStudyPlans();
         assertFalse(studyPlans.stream().anyMatch(plan -> plan.getStudyPlanId() == studyPlan.getStudyPlanId()));
     }
+
+
 }

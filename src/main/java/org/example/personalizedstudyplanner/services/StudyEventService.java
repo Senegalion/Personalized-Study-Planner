@@ -24,6 +24,10 @@ public class StudyEventService {
         }
     }
 
+    public StudyEventService(StudyEventRepository studyEventRepository) {
+        this.studyEventRepository = studyEventRepository;
+    }
+
     public List<Assignment> getAssignmentsForDate(LocalDate date) {
         return studyEventRepository.getAssignmentsForDate(date);
     }
