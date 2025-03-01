@@ -59,12 +59,28 @@ public class StudyPlanRepositoryImplementation implements StudyPlanRepository {
 
     @Override
     public void delete(int studyPlanId, int currentUserId) throws SQLException {
-        String query = "DELETE FROM study_plan WHERE study_plan_id = ? AND student_id = ?";
+        String deleteAssignmentsQuery = "DELETE FROM assignment WHERE study_plan_id = ?";
+        String deleteExamsQuery = "DELETE FROM exam WHERE study_plan_id = ?";
+        String deleteSchedulesQuery = "DELETE FROM class_schedule WHERE study_plan_id = ?";
+        String deleteStudyPlanQuery = "DELETE FROM study_plan WHERE study_plan_id = ? AND student_id = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, studyPlanId);
-            preparedStatement.setInt(2, currentUserId);
-            preparedStatement.executeUpdate();
+        try (PreparedStatement deleteAssignmentsStmt = connection.prepareStatement(deleteAssignmentsQuery);
+             PreparedStatement deleteExamsStmt = connection.prepareStatement(deleteExamsQuery);
+             PreparedStatement deleteSchedulesStmt = connection.prepareStatement(deleteSchedulesQuery);
+             PreparedStatement deleteStudyPlanStmt = connection.prepareStatement(deleteStudyPlanQuery)) {
+
+            deleteAssignmentsStmt.setInt(1, studyPlanId);
+            deleteAssignmentsStmt.executeUpdate();
+
+            deleteExamsStmt.setInt(1, studyPlanId);
+            deleteExamsStmt.executeUpdate();
+
+            deleteSchedulesStmt.setInt(1, studyPlanId);
+            deleteSchedulesStmt.executeUpdate();
+
+            deleteStudyPlanStmt.setInt(1, studyPlanId);
+            deleteStudyPlanStmt.setInt(2, currentUserId);
+            deleteStudyPlanStmt.executeUpdate();
         }
     }
 }
