@@ -223,14 +223,7 @@ public class CalendarController {
 
             Address address = null;
             if (!eventType.equals("Assignment")) {
-                address = new Address(
-                        0,
-                        result.get(2),
-                        result.get(3),
-                        result.get(4),
-                        Integer.parseInt(result.get(5)),
-                        result.get(6)
-                );
+                address = new Address(0, result.get(2), result.get(3), result.get(4), Integer.parseInt(result.get(5)), result.get(6));
             }
 
             try {
@@ -268,5 +261,15 @@ public class CalendarController {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/SelectPlanner.fxml")));
         stage.setScene(new Scene(root, 800, 600));
+    }
+
+    @FXML
+    private void handleToday(ActionEvent event) {
+        try {
+            generateCalendar();
+        } catch (SQLException e) {
+            showErrorAlert("Failed to refresh calendar.");
+            e.printStackTrace();
+        }
     }
 }
