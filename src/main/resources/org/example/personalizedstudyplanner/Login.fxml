@@ -2,39 +2,22 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns:fx="http://javafx.com/javafx"
             fx:controller="org.example.personalizedstudyplanner.controllers.LoginController"
             stylesheets="@style.css"
             styleClass="anchor-pane">
-    <children>
-        <Label text="Welcome to the Personalized Study Planner"
-               layoutX="200" layoutY="30"
-               prefWidth="400"
-               styleClass="title"/>
+    <Label text="Welcome to Study Planner"
+           layoutX="200" layoutY="30"
+           prefWidth="400"
+           styleClass="title"/>
 
-        <Label text="Email:"
-               layoutX="300" layoutY="120"
-               styleClass="label"/>
-        <TextField fx:id="emailField"
-                   layoutX="300" layoutY="150"
-                   prefWidth="200"
-                   styleClass="text-field"/>
+    <Label text="Email:" layoutX="300" layoutY="120" styleClass="label"/>
+    <TextField fx:id="emailField" layoutX="300" layoutY="150" prefWidth="200" styleClass="text-field"/>
 
-        <Label text="Password:"
-               layoutX="300" layoutY="200"
-               styleClass="label"/>
-        <PasswordField fx:id="passwordField"
-                       layoutX="300" layoutY="230"
-                       prefWidth="200"
-                       styleClass="password-field"/>
+    <Label text="Password:" layoutX="300" layoutY="200" styleClass="label"/>
+    <PasswordField fx:id="passwordField" layoutX="300" layoutY="230" prefWidth="200" styleClass="password-field"/>
 
-        <Button text="Login"
-                layoutX="320" layoutY="300"
-                styleClass="button"
-                onAction="#handleLogin"/>
-        <Button text="Register"
-                layoutX="420" layoutY="300"
-                styleClass="button"
-                onAction="#goToRegistration"/>
-    </children>
+    <Button text="Login" layoutX="320" layoutY="300" styleClass="button" onAction="#handleLogin"/>
+    <Button text="Register" layoutX="420" layoutY="300" styleClass="button" onAction="#goToRegistration"/>
 </AnchorPane>
+

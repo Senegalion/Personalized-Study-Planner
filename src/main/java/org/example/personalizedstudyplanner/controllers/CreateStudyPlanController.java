@@ -70,4 +70,24 @@ public class CreateStudyPlanController {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Dashboard.fxml")));
         stage.setScene(new Scene(root, 800, 600));
     }
+
+    public TextField getTitleField() {
+        return titleField;
+    }
+
+    public void setTitleField(TextField titleField) {
+        this.titleField = titleField;
+    }
+
+    public TextArea getDescriptionField() {
+        return descriptionField;
+    }
+
+    public void setDescriptionField(TextArea descriptionField) {
+        this.descriptionField = descriptionField;
+    }
+
+    public StudyPlanService getStudyPlanService() {
+        return studyPlanService;
+    }
 }

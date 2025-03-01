@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.personalizedstudyplanner.controllers.CreateStudyPlanController">
+<VBox alignment="CENTER" spacing="15" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.personalizedstudyplanner.controllers.CreateStudyPlanController"
+      stylesheets="@style.css" styleClass="root-pane">
 
-    <Label text="Create New Study Plan" style="-fx-font-size: 24px;"/>
+    <Label text="Create New Study Plan" styleClass="title"/>
 
-    <TextField fx:id="titleField" promptText="Enter Study Plan Title" style="-fx-font-size: 16px;"/>
+    <TextField fx:id="titleField" promptText="Enter Study Plan Title" styleClass="input-field"/>
 
-    <TextArea fx:id="descriptionField" promptText="Enter Study Plan Description" style="-fx-font-size: 16px;"
-              prefHeight="100" wrapText="true"/>
+    <TextArea fx:id="descriptionField" promptText="Enter Study Plan Description"
+              prefHeight="100" wrapText="true" styleClass="input-area"/>
 
-    <Button text="Create Study Plan" onAction="#handleCreateStudyPlan" style="-fx-font-size: 16px;"/>
-
-    <Button text="Cancel" onAction="#goBack" style="-fx-font-size: 16px;"/>
+    <HBox spacing="10">
+        <Button text="Create Plan" onAction="#handleCreateStudyPlan" styleClass="primary-button"/>
+        <Button text="Cancel" onAction="#goBack" styleClass="secondary-button"/>
+    </HBox>
 
 </VBox>
