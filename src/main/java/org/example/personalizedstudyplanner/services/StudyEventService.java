@@ -1,5 +1,6 @@
 package org.example.personalizedstudyplanner.services;
 
+import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.models.Address;
 import org.example.personalizedstudyplanner.models.Assignment;
@@ -25,15 +26,15 @@ public class StudyEventService {
     }
 
     public List<Assignment> getAssignmentsForDate(LocalDate date) {
-        return studyEventRepository.getAssignmentsForDate(date);
+        return studyEventRepository.getAssignmentsForDate(date, StudyPlanContext.getCurrentStudyPlanId());
     }
 
     public List<Exam> getExamsForDate(LocalDate date) {
-        return studyEventRepository.getExamsForDate(date);
+        return studyEventRepository.getExamsForDate(date, StudyPlanContext.getCurrentStudyPlanId());
     }
 
     public List<ClassSchedule> getClassesForDate(LocalDate date) {
-        return studyEventRepository.getClassesForDate(date);
+        return studyEventRepository.getClassesForDate(date, StudyPlanContext.getCurrentStudyPlanId());
     }
 
     public void addAssignment(Assignment assignment) {
