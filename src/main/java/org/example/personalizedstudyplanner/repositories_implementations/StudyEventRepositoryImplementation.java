@@ -17,12 +17,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
     }
 
     @Override
-    public List<Assignment> getAssignmentsForDate(LocalDate date) {
+    public List<Assignment> getAssignmentsForDate(LocalDate date, int studyPlanId) {
         List<Assignment> assignments = new ArrayList<>();
-        String sql = "SELECT * FROM assignment WHERE DATE(due_date) = ?";
+        String sql = "SELECT * FROM assignment WHERE DATE(due_date) = ? AND study_plan_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, Date.valueOf(date));
+            stmt.setInt(2, studyPlanId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -43,12 +44,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
     }
 
     @Override
-    public List<Exam> getExamsForDate(LocalDate date) {
+    public List<Exam> getExamsForDate(LocalDate date, int studyPlanId) {
         List<Exam> exams = new ArrayList<>();
-        String sql = "SELECT * FROM exam WHERE DATE(date) = ?";
+        String sql = "SELECT * FROM exam WHERE DATE(date) = ? AND study_plan_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, Date.valueOf(date));
+            stmt.setInt(2, studyPlanId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -68,12 +70,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
     }
 
     @Override
-    public List<ClassSchedule> getClassesForDate(LocalDate date) {
+    public List<ClassSchedule> getClassesForDate(LocalDate date, int studyPlanId) {
         List<ClassSchedule> classSchedules = new ArrayList<>();
-        String sql = "SELECT * FROM class_schedule WHERE DATE(start_time) = ?";
+        String sql = "SELECT * FROM class_schedule WHERE DATE(start_time) = ? AND study_plan_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, Date.valueOf(date));
+            stmt.setInt(2, studyPlanId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

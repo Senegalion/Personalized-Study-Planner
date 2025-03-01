@@ -43,6 +43,7 @@ class StudyEventRepositoryImplementationTest {
     @Test
     void testGetAssignmentsForDate() throws SQLException {
         LocalDate date = LocalDate.now();
+        int studyPlanId = 101;
         when(mockResultSet.next()).thenReturn(true, false);
         when(mockResultSet.getInt("assignment_id")).thenReturn(1);
         when(mockResultSet.getInt("study_plan_id")).thenReturn(101);
@@ -51,7 +52,7 @@ class StudyEventRepositoryImplementationTest {
         when(mockResultSet.getObject("due_date", Timestamp.class)).thenReturn(Timestamp.from(Instant.now()));
         when(mockResultSet.getString("status")).thenReturn("PENDING");
 
-        List<Assignment> assignments = repository.getAssignmentsForDate(date);
+        List<Assignment> assignments = repository.getAssignmentsForDate(date, studyPlanId);
 
         assertFalse(assignments.isEmpty());
         assertEquals(1, assignments.get(0).getAssignmentId());
@@ -61,6 +62,7 @@ class StudyEventRepositoryImplementationTest {
     @Test
     void testGetExamsForDate() throws SQLException {
         LocalDate date = LocalDate.now();
+        int studyPlanId = 202;
         when(mockResultSet.next()).thenReturn(true, false);
         when(mockResultSet.getInt("exam_id")).thenReturn(2);
         when(mockResultSet.getInt("study_plan_id")).thenReturn(202);
@@ -68,7 +70,7 @@ class StudyEventRepositoryImplementationTest {
         when(mockResultSet.getObject("date", Timestamp.class)).thenReturn(Timestamp.from(Instant.now()));
         when(mockResultSet.getInt("address_id")).thenReturn(5);
 
-        List<Exam> exams = repository.getExamsForDate(date);
+        List<Exam> exams = repository.getExamsForDate(date, studyPlanId);
 
         assertFalse(exams.isEmpty());
         assertEquals(2, exams.get(0).getExamId());
@@ -78,6 +80,7 @@ class StudyEventRepositoryImplementationTest {
     @Test
     void testGetClassesForDate() throws SQLException {
         LocalDate date = LocalDate.now();
+        int studyPlanId = 303;
         when(mockResultSet.next()).thenReturn(true, false);
         when(mockResultSet.getInt("class_schedule_id")).thenReturn(3);
         when(mockResultSet.getInt("study_plan_id")).thenReturn(303);
@@ -88,7 +91,7 @@ class StudyEventRepositoryImplementationTest {
         when(mockResultSet.getInt("address_id")).thenReturn(7);
         when(mockResultSet.getString("recurrence_pattern")).thenReturn("Weekly");
 
-        List<ClassSchedule> classes = repository.getClassesForDate(date);
+        List<ClassSchedule> classes = repository.getClassesForDate(date, studyPlanId);
 
         assertFalse(classes.isEmpty());
         assertEquals(3, classes.get(0).getClassScheduleId());

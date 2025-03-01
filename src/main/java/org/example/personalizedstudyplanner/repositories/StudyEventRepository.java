@@ -9,11 +9,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface StudyEventRepository {
-    List<Assignment> getAssignmentsForDate(LocalDate date);
+    List<Assignment> getAssignmentsForDate(LocalDate date, int studyPlanId);
 
-    List<Exam> getExamsForDate(LocalDate date);
+    List<Exam> getExamsForDate(LocalDate date, int studyPlanId);
 
-    List<ClassSchedule> getClassesForDate(LocalDate date);
+    List<ClassSchedule> getClassesForDate(LocalDate date, int studyPlanId);
 
     void addAssignment(Assignment assignment);
 

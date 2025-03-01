@@ -116,17 +116,17 @@ class StudyEventServiceTest {
         private final List<ClassSchedule> classes = new ArrayList<>();
 
         @Override
-        public List<Assignment> getAssignmentsForDate(LocalDate date) {
+        public List<Assignment> getAssignmentsForDate(LocalDate date, int studyPlanId) {
             return new ArrayList<>(assignments);
         }
 
         @Override
-        public List<Exam> getExamsForDate(LocalDate date) {
+        public List<Exam> getExamsForDate(LocalDate date, int studyPlanId) {
             return new ArrayList<>(exams);
         }
 
         @Override
-        public List<ClassSchedule> getClassesForDate(LocalDate date) {
+        public List<ClassSchedule> getClassesForDate(LocalDate date, int studyPlanId) {
             return new ArrayList<>(classes);
         }
 
