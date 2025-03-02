@@ -73,4 +73,8 @@ public class StudyEventService {
     public void updateAssignmentStatus(Assignment assignment) {
         studyEventRepository.updateAssignmentStatus(assignment);
     }
+
+    public void updateExamStatus(Exam exam) {
+        studyEventRepository.updateExamStatus(exam);
+    }
 }

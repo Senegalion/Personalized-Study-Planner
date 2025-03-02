@@ -235,7 +235,7 @@ public class CalendarController {
                         studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING));
                         break;
                     case "Exam":
-                        studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0), address);
+                        studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0, AssignmentStatus.PENDING), address);
                         break;
                     case "Class Schedule":
                         studyEventService.addClassSchedule(new ClassSchedule(0, StudyPlanContext.getCurrentStudyPlanId(), "Monday", title, eventDate, eventDate.plusHours(1), 0, result.get(7)), address);

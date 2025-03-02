@@ -8,13 +8,15 @@ public class Exam {
     private String subject;
     private OffsetDateTime date;
     private int addressId;
+    private AssignmentStatus status;
 
-    public Exam(int examId, int studyPlanId, String subject, OffsetDateTime date, int addressId) {
+    public Exam(int examId, int studyPlanId, String subject, OffsetDateTime date, int addressId, AssignmentStatus status) {
         this.examId = examId;
         this.studyPlanId = studyPlanId;
         this.subject = subject;
         this.date = date;
         this.addressId = addressId;
+        this.status = status;
     }
 
     public int getExamId() {
@@ -55,5 +57,13 @@ public class Exam {
 
     public void setAddressId(int addressId) {
         this.addressId = addressId;
+    }
+
+    public AssignmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AssignmentStatus status) {
+        this.status = status;
     }
 }

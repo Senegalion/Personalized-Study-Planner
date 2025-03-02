@@ -1,9 +1,6 @@
 package org.example.personalizedstudyplanner.context.repositories_implementations;
 
-import org.example.personalizedstudyplanner.models.Address;
-import org.example.personalizedstudyplanner.models.Assignment;
-import org.example.personalizedstudyplanner.models.ClassSchedule;
-import org.example.personalizedstudyplanner.models.Exam;
+import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
 import org.example.personalizedstudyplanner.repositories_implementations.AddressRepositoryImplementation;
 import org.example.personalizedstudyplanner.repositories_implementations.StudyEventRepositoryImplementation;
@@ -103,7 +100,7 @@ class StudyEventRepositoryImplementationTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeUpdate()).thenReturn(1);
 
-        Exam exam = new Exam(2, 202, "Physics", Instant.now().atOffset(ZoneOffset.UTC), 5);
+        Exam exam = new Exam(2, 202, "Physics", Instant.now().atOffset(ZoneOffset.UTC), 5, AssignmentStatus.PENDING);
         Address address = new Address(1, "Country", "City", "Street", 10, "12345");
 
         AddressRepositoryImplementation addressRepositoryMock = mock(AddressRepositoryImplementation.class);
