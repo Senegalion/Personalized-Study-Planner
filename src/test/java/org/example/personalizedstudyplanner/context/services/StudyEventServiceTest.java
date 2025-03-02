@@ -6,6 +6,7 @@ import org.example.personalizedstudyplanner.services.StudyEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -143,6 +144,21 @@ class StudyEventServiceTest {
         @Override
         public void addClassSchedule(ClassSchedule classSchedule, Address address) {
             classes.add(classSchedule);
+        }
+
+        @Override
+        public List<Assignment> getUpcomingAssignments(int daysAhead, int studyPlanId) throws SQLException {
+            return null;
+        }
+
+        @Override
+        public List<Exam> getUpcomingExams(int daysAhead, int studyPlanId) throws SQLException {
+            return null;
+        }
+
+        @Override
+        public List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException {
+            return null;
         }
 
         public void addTestAssignment(Assignment assignment) {

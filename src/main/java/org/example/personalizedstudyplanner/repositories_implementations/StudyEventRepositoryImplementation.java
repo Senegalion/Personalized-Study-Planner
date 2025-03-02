@@ -152,4 +152,89 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<Assignment> getUpcomingAssignments(int daysAhead, int studyPlanId) throws SQLException {
+        LocalDate today = LocalDate.now();
+        LocalDate maxDate = today.plusDays(daysAhead);
+
+        String query = "SELECT * FROM assignment WHERE due_date BETWEEN ? AND ? AND study_plan_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setObject(1, today);
+            stmt.setObject(2, maxDate);
+            stmt.setInt(3, studyPlanId);
+
+            ResultSet rs = stmt.executeQuery();
+            List<Assignment> assignments = new ArrayList<>();
+
+            while (rs.next()) {
+                assignments.add(new Assignment(
+                        rs.getInt("assignment_id"),
+                        rs.getInt("study_plan_id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        AssignmentStatus.valueOf(rs.getString("status"))
+                ));
+            }
+            return assignments;
+        }
+    }
+
+    @Override
+    public List<Exam> getUpcomingExams(int daysAhead, int studyPlanId) throws SQLException {
+        LocalDate today = LocalDate.now();
+        LocalDate maxDate = today.plusDays(daysAhead);
+
+        String query = "SELECT * FROM exam WHERE date BETWEEN ? AND ? AND study_plan_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setObject(1, today);
+            stmt.setObject(2, maxDate);
+            stmt.setInt(3, studyPlanId);
+
+            ResultSet rs = stmt.executeQuery();
+            List<Exam> exams = new ArrayList<>();
+
+            while (rs.next()) {
+                exams.add(new Exam(
+                        rs.getInt("exam_id"),
+                        rs.getInt("study_plan_id"),
+                        rs.getString("subject"),
+                        rs.getObject("date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getInt("address_id")
+                ));
+            }
+            return exams;
+        }
+    }
+
+    @Override
+    public List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException {
+        LocalDate today = LocalDate.now();
+        LocalDate maxDate = today.plusDays(daysAhead);
+
+        String query = "SELECT * FROM class_schedule WHERE start_time BETWEEN ? AND ? AND study_plan_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setObject(1, today);
+            stmt.setObject(2, maxDate);
+            stmt.setInt(3, studyPlanId);
+
+            ResultSet rs = stmt.executeQuery();
+            List<ClassSchedule> classSchedules = new ArrayList<>();
+
+            while (rs.next()) {
+                classSchedules.add(new ClassSchedule(
+                        rs.getInt("class_schedule_id"),
+                        rs.getInt("study_plan_id"),
+                        rs.getString("day_of_week"),
+                        rs.getString("class_name"),
+                        rs.getObject("start_time", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getObject("end_time", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getInt("address_id"),
+                        rs.getString("recurrence_pattern")
+                ));
+            }
+            return classSchedules;
+        }
+    }
 }

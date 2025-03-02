@@ -10,6 +10,7 @@ import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
 import org.example.personalizedstudyplanner.repositories_implementations.StudyEventRepositoryImplementation;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,5 +48,17 @@ public class StudyEventService {
 
     public void addClassSchedule(ClassSchedule classSchedule, Address address) {
         studyEventRepository.addClassSchedule(classSchedule, address);
+    }
+
+    public List<Assignment> getUpcomingAssignments(int daysAhead, int studyPlanId) throws SQLException {
+        return studyEventRepository.getUpcomingAssignments(daysAhead, studyPlanId);
+    }
+
+    public List<Exam> getUpcomingExams(int daysAhead, int studyPlanId) throws SQLException {
+        return studyEventRepository.getUpcomingExams(daysAhead, studyPlanId);
+    }
+
+    public List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException {
+        return studyEventRepository.getUpcomingClasses(daysAhead, studyPlanId);
     }
 }

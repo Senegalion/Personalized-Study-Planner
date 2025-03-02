@@ -37,6 +37,7 @@ public class CalendarController {
         Platform.runLater(() -> {
             try {
                 generateCalendar();
+                checkReminders();
             } catch (SQLException e) {
                 showErrorAlert("Failed to load calendar.");
             }
@@ -271,5 +272,48 @@ public class CalendarController {
             showErrorAlert("Failed to refresh calendar.");
             e.printStackTrace();
         }
+    }
+
+    private void checkReminders() {
+        try {
+            int daysAhead = 3;
+            int studyPlanId = StudyPlanContext.getCurrentStudyPlanId();
+
+            List<Assignment> assignments = studyEventService.getUpcomingAssignments(daysAhead, studyPlanId);
+            List<Exam> exams = studyEventService.getUpcomingExams(daysAhead, studyPlanId);
+            List<ClassSchedule> classes = studyEventService.getUpcomingClasses(daysAhead, studyPlanId);
+
+            if (!assignments.isEmpty() || !exams.isEmpty() || !classes.isEmpty()) {
+                StringBuilder reminderText = new StringBuilder("📢 Upcoming Events:\n");
+
+                for (Assignment a : assignments) {
+                    reminderText.append("📌 Assignment: ").append(a.getTitle())
+                            .append(" - Due ").append(a.getDueDate().toLocalDate()).append("\n");
+                }
+
+                for (Exam e : exams) {
+                    reminderText.append("📝 Exam: ").append(e.getSubject())
+                            .append(" - On ").append(e.getDate().toLocalDate()).append("\n");
+                }
+
+                for (ClassSchedule c : classes) {
+                    reminderText.append("📚 Class: ").append(c.getClassName())
+                            .append(" - Scheduled on ").append(c.getStartTime().toLocalDate()).append("\n");
+                }
+
+                showReminderAlert(reminderText.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void showReminderAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Reminders");
+        alert.setHeaderText("Upcoming Events");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
