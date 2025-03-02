@@ -2,6 +2,9 @@ package org.example.personalizedstudyplanner.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
@@ -12,6 +15,7 @@ import org.example.personalizedstudyplanner.models.ClassSchedule;
 import org.example.personalizedstudyplanner.models.Exam;
 import org.example.personalizedstudyplanner.services.StudyEventService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -68,5 +72,23 @@ public class DailyViewController {
     private void handleBack(ActionEvent event) {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void handleViewProgress(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/personalizedstudyplanner/ProgressView.fxml"));
+            Parent root = loader.load();
+
+            ProgressController progressController = loader.getController();
+            progressController.setDate(selectedDate, studyPlanId);
+
+            Stage stage = new Stage();
+            stage.setTitle("Study Progress");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

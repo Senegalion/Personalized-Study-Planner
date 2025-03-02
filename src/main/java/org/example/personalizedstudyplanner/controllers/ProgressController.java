@@ -1,17 +1,18 @@
 package org.example.personalizedstudyplanner.controllers;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
-import org.example.personalizedstudyplanner.context.StudyPlanContext;
+import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.models.Assignment;
 import org.example.personalizedstudyplanner.models.Exam;
 import org.example.personalizedstudyplanner.services.StudyEventService;
 
-import java.sql.SQLException;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -22,23 +23,27 @@ public class ProgressController {
     private VBox examProgressContainer;
 
     private final StudyEventService studyEventService = new StudyEventService();
+    private LocalDate selectedDate;
+    private int studyPlanId;
 
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
-            try {
-                loadAssignmentProgress();
-                loadExamProgress();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            loadAssignmentProgress();
+            loadExamProgress();
         });
     }
 
-    private void loadAssignmentProgress() throws SQLException {
-        int studyPlanId = StudyPlanContext.getCurrentStudyPlanId();
-        List<Assignment> assignments = studyEventService.getAllAssignments(studyPlanId);
+    public void setDate(LocalDate date, int studyPlanId) {
+        this.selectedDate = date;
+        this.studyPlanId = studyPlanId;
+        loadAssignmentProgress();
+        loadExamProgress();
+    }
+
+    private void loadAssignmentProgress() {
         assignmentProgressContainer.getChildren().clear();
+        List<Assignment> assignments = studyEventService.getAssignmentsForDate(selectedDate);
 
         for (Assignment assignment : assignments) {
             double progress = assignment.getStatus().getProgressValue();
@@ -50,10 +55,9 @@ public class ProgressController {
         }
     }
 
-    private void loadExamProgress() throws SQLException {
-        int studyPlanId = StudyPlanContext.getCurrentStudyPlanId();
-        List<Exam> exams = studyEventService.getAllExams(studyPlanId);
+    private void loadExamProgress() {
         examProgressContainer.getChildren().clear();
+        List<Exam> exams = studyEventService.getExamsForDate(selectedDate);
 
         for (Exam exam : exams) {
             double progress = calculateExamPreparationProgress(exam);
@@ -64,6 +68,7 @@ public class ProgressController {
             examProgressContainer.getChildren().add(entry);
         }
     }
+
 
     private double calculateExamPreparationProgress(Exam exam) {
         OffsetDateTime now = OffsetDateTime.now();
@@ -77,6 +82,12 @@ public class ProgressController {
         long daysElapsed = Math.max(1, totalDays - 7);
 
         return Math.min(1.0, (double) daysElapsed / totalDays);
+    }
+
+    @FXML
+    private void handleBack(ActionEvent event) {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 }
 
