@@ -237,4 +237,56 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
             return classSchedules;
         }
     }
+
+    @Override
+    public List<Assignment> getAllAssignments(int studyPlanId) {
+        List<Assignment> assignments = new ArrayList<>();
+        String sql = "SELECT * FROM assignment AND study_plan_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, studyPlanId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                assignments.add(new Assignment(
+                        rs.getInt("assignment_id"),
+                        rs.getInt("study_plan_id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        AssignmentStatus.valueOf(rs.getString("status"))
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return assignments;
+    }
+
+    @Override
+    public List<Exam> getAllExams(int studyPlanId) {
+        List<Exam> exams = new ArrayList<>();
+        String sql = "SELECT * FROM exam AND study_plan_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, studyPlanId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                exams.add(new Exam(
+                        rs.getInt("exam_id"),
+                        rs.getInt("study_plan_id"),
+                        rs.getString("subject"),
+                        rs.getObject("date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getInt("address_id")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return exams;
+    }
+
 }

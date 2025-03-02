@@ -27,4 +27,8 @@ public interface StudyEventRepository {
     List<Exam> getUpcomingExams(int daysAhead, int studyPlanId) throws SQLException;
 
     List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException;
+
+    List<Assignment> getAllAssignments(int studyPlanId);
+
+    List<Exam> getAllExams(int studyPlanId);
 }

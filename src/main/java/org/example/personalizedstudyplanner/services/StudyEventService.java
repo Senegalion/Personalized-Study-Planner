@@ -61,4 +61,12 @@ public class StudyEventService {
     public List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException {
         return studyEventRepository.getUpcomingClasses(daysAhead, studyPlanId);
     }
+
+    public List<Assignment> getAllAssignments(int studyPlanId) {
+        return studyEventRepository.getAllAssignments(studyPlanId);
+    }
+
+    public List<Exam> getAllExams(int studyPlanId) {
+        return studyEventRepository.getAllExams(studyPlanId);
+    }
 }

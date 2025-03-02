@@ -161,6 +161,16 @@ class StudyEventServiceTest {
             return null;
         }
 
+        @Override
+        public List<Assignment> getAllAssignments(int studyPlanId) {
+            return null;
+        }
+
+        @Override
+        public List<Exam> getAllExams(int studyPlanId) {
+            return null;
+        }
+
         public void addTestAssignment(Assignment assignment) {
             assignments.add(assignment);
         }
