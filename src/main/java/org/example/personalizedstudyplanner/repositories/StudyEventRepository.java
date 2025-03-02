@@ -5,6 +5,7 @@ import org.example.personalizedstudyplanner.models.Assignment;
 import org.example.personalizedstudyplanner.models.ClassSchedule;
 import org.example.personalizedstudyplanner.models.Exam;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface StudyEventRepository {
     void addExam(Exam exam, Address address);
 
     void addClassSchedule(ClassSchedule classSchedule, Address address);
+
+    List<Assignment> getUpcomingAssignments(int daysAhead, int studyPlanId) throws SQLException;
+
+    List<Exam> getUpcomingExams(int daysAhead, int studyPlanId) throws SQLException;
+
+    List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException;
 }
