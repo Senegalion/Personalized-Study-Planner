@@ -33,4 +33,6 @@ public interface StudyEventRepository {
     List<Exam> getAllExams(int studyPlanId);
 
     void updateAssignmentStatus(Assignment assignment);
+
+    void updateExamStatus(Exam exam);
 }

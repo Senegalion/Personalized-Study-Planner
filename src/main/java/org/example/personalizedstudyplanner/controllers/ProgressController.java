@@ -73,11 +73,22 @@ public class ProgressController {
         List<Exam> exams = studyEventService.getExamsForDate(selectedDate);
 
         for (Exam exam : exams) {
-            double progress = calculateExamPreparationProgress(exam);
+            double progress = exam.getStatus().getProgressValue();
             ProgressBar progressBar = new ProgressBar(progress);
             Label label = new Label(exam.getSubject() + " - " + (int) (progress * 100) + "% Prepared");
 
-            VBox entry = new VBox(label, progressBar);
+            ComboBox<AssignmentStatus> statusComboBox = new ComboBox<>();
+            statusComboBox.getItems().setAll(AssignmentStatus.values());
+            statusComboBox.setValue(exam.getStatus());
+
+            statusComboBox.setOnAction(event -> {
+                AssignmentStatus newStatus = statusComboBox.getValue();
+                exam.setStatus(newStatus);
+                studyEventService.updateExamStatus(exam);
+                loadExamProgress();
+            });
+
+            VBox entry = new VBox(label, progressBar, statusComboBox);
             examProgressContainer.getChildren().add(entry);
         }
     }

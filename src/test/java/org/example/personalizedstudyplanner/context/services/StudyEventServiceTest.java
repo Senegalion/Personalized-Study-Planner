@@ -56,7 +56,7 @@ class StudyEventServiceTest {
     @Test
     void getExamsForDate_ShouldReturnListOfExams() {
         LocalDate testDate = LocalDate.now();
-        Exam testExam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC), 1);
+        Exam testExam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC), 1, AssignmentStatus.PENDING);
         testRepository.addTestExam(testExam);
 
         List<Exam> exams = studyEventService.getExamsForDate(testDate);
@@ -91,7 +91,7 @@ class StudyEventServiceTest {
 
     @Test
     void addExam_ShouldAddToRepository() {
-        Exam exam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC), 1);
+        Exam exam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC), 1, AssignmentStatus.PENDING);
         Address address = new Address(1, "Country", "City", "Street", 123, "12345");
 
         studyEventService.addExam(exam, address);
@@ -169,6 +169,16 @@ class StudyEventServiceTest {
         @Override
         public List<Exam> getAllExams(int studyPlanId) {
             return null;
+        }
+
+        @Override
+        public void updateAssignmentStatus(Assignment assignment) {
+
+        }
+
+        @Override
+        public void updateExamStatus(Exam exam) {
+
         }
 
         public void addTestAssignment(Assignment assignment) {
