@@ -289,4 +289,24 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
         return exams;
     }
 
+    @Override
+    public void updateAssignmentStatus(Assignment assignment) {
+        String updateQuery = "UPDATE assignment SET status = ? WHERE assignment_id = ? AND study_plan_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
+            stmt.setString(1, assignment.getStatus().name());
+            stmt.setInt(2, assignment.getAssignmentId());
+            stmt.setInt(3, assignment.getStudyPlanId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Assignment status updated successfully in the database.");
+            } else {
+                System.out.println("Failed to update assignment status.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
