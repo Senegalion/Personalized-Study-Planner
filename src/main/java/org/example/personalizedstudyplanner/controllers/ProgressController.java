@@ -3,11 +3,13 @@ package org.example.personalizedstudyplanner.controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.models.Assignment;
+import org.example.personalizedstudyplanner.models.AssignmentStatus;
 import org.example.personalizedstudyplanner.models.Exam;
 import org.example.personalizedstudyplanner.services.StudyEventService;
 
@@ -50,7 +52,18 @@ public class ProgressController {
             ProgressBar progressBar = new ProgressBar(progress);
             Label label = new Label(assignment.getTitle() + " - " + (int) (progress * 100) + "% Completed");
 
-            VBox entry = new VBox(label, progressBar);
+            ComboBox<AssignmentStatus> statusComboBox = new ComboBox<>();
+            statusComboBox.getItems().setAll(AssignmentStatus.values());
+            statusComboBox.setValue(assignment.getStatus());
+
+            statusComboBox.setOnAction(event -> {
+                AssignmentStatus newStatus = statusComboBox.getValue();
+                assignment.setStatus(newStatus);
+                studyEventService.updateAssignmentStatus(assignment);
+                loadAssignmentProgress();
+            });
+
+            VBox entry = new VBox(label, progressBar, statusComboBox);
             assignmentProgressContainer.getChildren().add(entry);
         }
     }

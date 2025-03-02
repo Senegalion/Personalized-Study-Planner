@@ -69,4 +69,8 @@ public class StudyEventService {
     public List<Exam> getAllExams(int studyPlanId) {
         return studyEventRepository.getAllExams(studyPlanId);
     }
+
+    public void updateAssignmentStatus(Assignment assignment) {
+        studyEventRepository.updateAssignmentStatus(assignment);
+    }
 }
