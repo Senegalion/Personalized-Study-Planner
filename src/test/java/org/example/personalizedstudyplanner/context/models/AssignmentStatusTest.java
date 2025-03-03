@@ -19,4 +19,11 @@ class AssignmentStatusTest {
         assertEquals(AssignmentStatus.COMPLETED, AssignmentStatus.valueOf("COMPLETED"));
         assertEquals(AssignmentStatus.OVERDUE, AssignmentStatus.valueOf("OVERDUE"));
     }
+
+    @Test
+    void getProgressValue_returnsCorrectProgressValue() {
+        assertEquals(0.0, AssignmentStatus.PENDING.getProgressValue());
+        assertEquals(1.0, AssignmentStatus.COMPLETED.getProgressValue());
+        assertEquals(0.5, AssignmentStatus.OVERDUE.getProgressValue());
+    }
 }

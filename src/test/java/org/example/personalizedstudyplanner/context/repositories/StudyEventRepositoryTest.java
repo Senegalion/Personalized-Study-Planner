@@ -22,7 +22,7 @@ class StudyEventRepositoryTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/personalized_study_planner", "postgres", "postgres");
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/personalized_study_planner", "postgres", "dmbonloz123");
         studyEventRepository = new StudyEventRepositoryImplementation(connection);
     }
 

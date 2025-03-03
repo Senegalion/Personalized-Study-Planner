@@ -1,11 +1,13 @@
 package org.example.personalizedstudyplanner.context.services;
 
 import org.example.personalizedstudyplanner.context.StudyPlanContext;
+import org.example.personalizedstudyplanner.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
 import org.example.personalizedstudyplanner.services.StudyEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mockStatic;
 
 class StudyEventServiceTest {
 
@@ -113,6 +116,97 @@ class StudyEventServiceTest {
         assertTrue(testRepository.containsClass(classSchedule));
     }
 
+    @Test
+    void getUpcomingAssignments_ShouldReturnListOfUpcomingAssignments() throws SQLException {
+        Assignment testAssignment = new Assignment(1, 1, "Test Assignment", "Description",
+                OffsetDateTime.now(ZoneOffset.UTC).plusDays(1), AssignmentStatus.PENDING);
+        testRepository.addTestAssignment(testAssignment);
+
+        List<Assignment> assignments = studyEventService.getUpcomingAssignments(7, 1);
+
+        assertEquals(1, assignments.size());
+        assertEquals(testAssignment.getTitle(), assignments.get(0).getTitle());
+    }
+
+    @Test
+    void getUpcomingExams_ShouldReturnListOfUpcomingExams() throws SQLException {
+        Exam testExam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC).plusDays(1), 1, AssignmentStatus.PENDING);
+        testRepository.addTestExam(testExam);
+
+        List<Exam> exams = studyEventService.getUpcomingExams(7, 1);
+
+        assertEquals(1, exams.size());
+        assertEquals(testExam.getSubject(), exams.get(0).getSubject());
+    }
+
+    @Test
+    void getUpcomingClasses_ShouldReturnListOfUpcomingClasses() throws SQLException {
+        ClassSchedule testClass = new ClassSchedule(1, 1, "Monday", "Test Class",
+                OffsetDateTime.now(ZoneOffset.UTC).plusDays(1), OffsetDateTime.now(ZoneOffset.UTC).plusDays(1).plusHours(1),
+                1, "WEEKLY");
+        testRepository.addTestClass(testClass);
+
+        List<ClassSchedule> classes = studyEventService.getUpcomingClasses(7, 1);
+
+        assertEquals(1, classes.size());
+        assertEquals(testClass.getClassName(), classes.get(0).getClassName());
+    }
+
+    @Test
+    void getAllAssignments_ShouldReturnListOfAllAssignments() {
+        Assignment testAssignment = new Assignment(1, 1, "Test Assignment", "Description",
+                OffsetDateTime.now(ZoneOffset.UTC), AssignmentStatus.PENDING);
+        testRepository.addTestAssignment(testAssignment);
+
+        List<Assignment> assignments = studyEventService.getAllAssignments(1);
+
+        assertEquals(1, assignments.size());
+        assertEquals(testAssignment.getTitle(), assignments.get(0).getTitle());
+    }
+
+    @Test
+    void getAllExams_ShouldReturnListOfAllExams() {
+        Exam testExam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC), 1, AssignmentStatus.PENDING);
+        testRepository.addTestExam(testExam);
+
+        List<Exam> exams = studyEventService.getAllExams(1);
+
+        assertEquals(1, exams.size());
+        assertEquals(testExam.getSubject(), exams.get(0).getSubject());
+    }
+
+    @Test
+    void updateAssignmentStatus_ShouldUpdateStatusInRepository() {
+        Assignment assignment = new Assignment(1, 1, "Test Assignment", "Description",
+                OffsetDateTime.now(ZoneOffset.UTC), AssignmentStatus.PENDING);
+        testRepository.addTestAssignment(assignment);
+
+        assignment.setStatus(AssignmentStatus.COMPLETED);
+        studyEventService.updateAssignmentStatus(assignment);
+
+        assertEquals(AssignmentStatus.COMPLETED, testRepository.getAssignmentsForDate(LocalDate.now(), 1).get(0).getStatus());
+    }
+
+    @Test
+    void updateExamStatus_ShouldUpdateStatusInRepository() {
+        Exam exam = new Exam(1, 1, "Test Exam", OffsetDateTime.now(ZoneOffset.UTC), 1, AssignmentStatus.PENDING);
+        testRepository.addTestExam(exam);
+
+        exam.setStatus(AssignmentStatus.COMPLETED);
+        studyEventService.updateExamStatus(exam);
+
+        assertEquals(AssignmentStatus.COMPLETED, testRepository.getExamsForDate(LocalDate.now(), 1).get(0).getStatus());
+    }
+
+    @Test
+    void constructor_shouldThrowRuntimeException_whenDatabaseConnectionFails() {
+        try (MockedStatic<DatabaseUtil> mockedDatabaseUtil = mockStatic(DatabaseUtil.class)) {
+            mockedDatabaseUtil.when(DatabaseUtil::connect).thenReturn(null);
+            RuntimeException exception = assertThrows(RuntimeException.class, StudyEventService::new);
+            assertEquals("Failed to connect to the database", exception.getMessage());
+        }
+    }
+
     private static class TestStudyEventRepository implements StudyEventRepository {
         private final List<Assignment> assignments = new ArrayList<>();
         private final List<Exam> exams = new ArrayList<>();
@@ -150,37 +244,37 @@ class StudyEventServiceTest {
 
         @Override
         public List<Assignment> getUpcomingAssignments(int daysAhead, int studyPlanId) throws SQLException {
-            return null;
+            return new ArrayList<>(assignments);
         }
 
         @Override
         public List<Exam> getUpcomingExams(int daysAhead, int studyPlanId) throws SQLException {
-            return null;
+            return new ArrayList<>(exams);
         }
 
         @Override
         public List<ClassSchedule> getUpcomingClasses(int daysAhead, int studyPlanId) throws SQLException {
-            return null;
+            return new ArrayList<>(classes);
         }
 
         @Override
         public List<Assignment> getAllAssignments(int studyPlanId) {
-            return null;
+            return new ArrayList<>(assignments);
         }
 
         @Override
         public List<Exam> getAllExams(int studyPlanId) {
-            return null;
+            return new ArrayList<>(exams);
         }
 
         @Override
         public void updateAssignmentStatus(Assignment assignment) {
-
+            assignments.replaceAll(a -> a.getAssignmentId() == assignment.getAssignmentId() ? assignment : a);
         }
 
         @Override
         public void updateExamStatus(Exam exam) {
-
+            exams.replaceAll(e -> e.getExamId() == exam.getExamId() ? exam : e);
         }
 
         public void addTestAssignment(Assignment assignment) {
@@ -206,5 +300,7 @@ class StudyEventServiceTest {
         public boolean containsClass(ClassSchedule classSchedule) {
             return classes.contains(classSchedule);
         }
+
+
     }
 }
