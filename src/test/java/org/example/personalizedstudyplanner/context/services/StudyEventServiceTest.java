@@ -1,5 +1,6 @@
 package org.example.personalizedstudyplanner.context.services;
 
+import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
 import org.example.personalizedstudyplanner.services.StudyEventService;
@@ -35,6 +36,7 @@ class StudyEventServiceTest {
                     }
                 }
             };
+            StudyPlanContext.setCurrentStudyPlanId(1);
         } catch (Exception e) {
             fail("Failed to set up test: " + e.getMessage());
         }

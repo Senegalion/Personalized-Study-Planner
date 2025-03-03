@@ -66,6 +66,7 @@ class StudyEventRepositoryImplementationTest {
         when(mockResultSet.getString("subject")).thenReturn("Physics");
         when(mockResultSet.getObject("date", Timestamp.class)).thenReturn(Timestamp.from(Instant.now()));
         when(mockResultSet.getInt("address_id")).thenReturn(5);
+        when(mockResultSet.getString("status")).thenReturn("PENDING");
 
         List<Exam> exams = repository.getExamsForDate(date, studyPlanId);
 
