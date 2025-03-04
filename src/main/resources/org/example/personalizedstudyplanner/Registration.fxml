@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="675.0" prefWidth="897.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.personalizedstudyplanner.controllers.RegistrationController">
+<AnchorPane prefHeight="675.0" prefWidth="897.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.example.personalizedstudyplanner.controllers.RegistrationController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200" layoutY="30" prefWidth="400.0" text="Register for the Study Planner">
          <font>

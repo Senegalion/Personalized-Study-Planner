@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="457.0" prefWidth="870.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.LoginController">
+<AnchorPane prefHeight="457.0" prefWidth="870.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.LoginController">
     <Label alignment="CENTER" layoutX="200.0" layoutY="30.0" prefWidth="400" styleClass="title" text="Welcome to Study Planner" textAlignment="CENTER" textFill="#e8e6e6">
       <font>
          <Font name="Arial Bold" size="30.0" />

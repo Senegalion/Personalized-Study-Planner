@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="600.0" spacing="10" style="-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C1E8FB);" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.DailyViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="600.0" spacing="10" style="-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C1E8FB);" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.DailyViewController">
 
     <Label fx:id="dateLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="📆 Day View" />
 
