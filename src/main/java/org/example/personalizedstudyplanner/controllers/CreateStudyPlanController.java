@@ -22,7 +22,7 @@ public class CreateStudyPlanController {
     @FXML
     private TextArea descriptionField;
 
-    private final StudyPlanService studyPlanService;
+    private StudyPlanService studyPlanService;
 
     public CreateStudyPlanController() {
         this.studyPlanService = new StudyPlanService();
@@ -56,7 +56,7 @@ public class CreateStudyPlanController {
         }
     }
 
-    private void showAlert(String title, String message, Alert.AlertType type) {
+    public void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -89,5 +89,9 @@ public class CreateStudyPlanController {
 
     public StudyPlanService getStudyPlanService() {
         return studyPlanService;
+    }
+
+    public void setStudyPlanService(StudyPlanService studyPlanService) {
+        this.studyPlanService = studyPlanService;
     }
 }

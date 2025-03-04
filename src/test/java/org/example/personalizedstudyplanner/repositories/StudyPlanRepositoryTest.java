@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.repositories;
+package org.example.personalizedstudyplanner.repositories;
 
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.repositories.StudyPlanRepository;

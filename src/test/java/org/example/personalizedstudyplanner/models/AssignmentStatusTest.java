@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.models;
+package org.example.personalizedstudyplanner.models;
 
 import org.example.personalizedstudyplanner.models.AssignmentStatus;
 import org.junit.jupiter.api.Test;
@@ -18,5 +18,12 @@ class AssignmentStatusTest {
         assertEquals(AssignmentStatus.PENDING, AssignmentStatus.valueOf("PENDING"));
         assertEquals(AssignmentStatus.COMPLETED, AssignmentStatus.valueOf("COMPLETED"));
         assertEquals(AssignmentStatus.OVERDUE, AssignmentStatus.valueOf("OVERDUE"));
+    }
+
+    @Test
+    void getProgressValue_returnsCorrectProgressValue() {
+        assertEquals(0.0, AssignmentStatus.PENDING.getProgressValue());
+        assertEquals(1.0, AssignmentStatus.COMPLETED.getProgressValue());
+        assertEquals(0.5, AssignmentStatus.OVERDUE.getProgressValue());
     }
 }

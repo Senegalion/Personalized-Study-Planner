@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.models;
+package org.example.personalizedstudyplanner.models;
 
 import org.example.personalizedstudyplanner.models.AssignmentStatus;
 import org.example.personalizedstudyplanner.models.Exam;
@@ -75,5 +75,18 @@ class ExamTest {
         Exam exam = new Exam(1, 101, "Math", OffsetDateTime.now(), 1, AssignmentStatus.PENDING);
         exam.setAddressId(2);
         assertEquals(2, exam.getAddressId());
+    }
+
+    @Test
+    void getStatus() {
+        Exam exam = new Exam(1, 101, "Math", OffsetDateTime.now(), 1, AssignmentStatus.PENDING);
+        assertEquals(AssignmentStatus.PENDING, exam.getStatus());
+    }
+
+    @Test
+    void setStatus() {
+        Exam exam = new Exam(1, 101, "Math", OffsetDateTime.now(), 1, AssignmentStatus.PENDING);
+        exam.setStatus(AssignmentStatus.COMPLETED);
+        assertEquals(AssignmentStatus.COMPLETED, exam.getStatus());
     }
 }

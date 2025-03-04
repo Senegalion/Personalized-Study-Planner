@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.repositories_implementations;
+package org.example.personalizedstudyplanner.repositories_implementations;
 
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.repositories_implementations.StudyPlanRepositoryImplementation;
@@ -34,11 +34,27 @@ class StudyPlanRepositoryImplementationTest {
     @InjectMocks
     private StudyPlanRepositoryImplementation repository;
 
+    @Mock
+    private PreparedStatement deleteAssignmentsStmt;
+
+    @Mock
+    private PreparedStatement deleteExamsStmt;
+
+    @Mock
+    private PreparedStatement deleteSchedulesStmt;
+
+    @Mock
+    private PreparedStatement deleteStudyPlanStmt;
+
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         when(connection.createStatement()).thenReturn(statement);
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+        when(connection.prepareStatement("DELETE FROM assignment WHERE study_plan_id = ?")).thenReturn(deleteAssignmentsStmt);
+        when(connection.prepareStatement("DELETE FROM exam WHERE study_plan_id = ?")).thenReturn(deleteExamsStmt);
+        when(connection.prepareStatement("DELETE FROM class_schedule WHERE study_plan_id = ?")).thenReturn(deleteSchedulesStmt);
+        when(connection.prepareStatement("DELETE FROM study_plan WHERE study_plan_id = ? AND student_id = ?")).thenReturn(deleteStudyPlanStmt);
     }
 
     @Test
@@ -93,8 +109,18 @@ class StudyPlanRepositoryImplementationTest {
 
         repository.delete(studyPlanId, currentUserId);
 
-        verify(preparedStatement).setInt(1, studyPlanId);
-        verify(preparedStatement).setInt(2, currentUserId);
-        verify(preparedStatement).executeUpdate();
+        verify(deleteAssignmentsStmt, times(1)).setInt(1, studyPlanId);
+        verify(deleteAssignmentsStmt, times(1)).executeUpdate();
+
+        verify(deleteExamsStmt, times(1)).setInt(1, studyPlanId);
+        verify(deleteExamsStmt, times(1)).executeUpdate();
+
+        verify(deleteSchedulesStmt, times(1)).setInt(1, studyPlanId);
+        verify(deleteSchedulesStmt, times(1)).executeUpdate();
+
+        verify(deleteStudyPlanStmt, times(1)).setInt(1, studyPlanId);
+        verify(deleteStudyPlanStmt, times(1)).setInt(2, currentUserId);
+        verify(deleteStudyPlanStmt, times(1)).executeUpdate();
+
     }
 }

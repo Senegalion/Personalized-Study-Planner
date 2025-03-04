@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.models;
+package org.example.personalizedstudyplanner.models;
 
 import org.example.personalizedstudyplanner.models.Address;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,8 @@ class AddressTest {
     @Test
     void setAddressId() {
         Address address = new Address(1, "USA", "New York", "5th Avenue", 10, "10001");
-        assertEquals(1, address.getAddressId());
+        address.setAddressId(2);
+        assertEquals(2, address.getAddressId());
     }
 
     @Test
