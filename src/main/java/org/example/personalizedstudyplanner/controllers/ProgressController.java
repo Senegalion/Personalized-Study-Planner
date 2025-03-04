@@ -94,7 +94,7 @@ public class ProgressController {
     }
 
 
-    private double calculateExamPreparationProgress(Exam exam) {
+    protected double calculateExamPreparationProgress(Exam exam) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime examDate = exam.getDate();
 
