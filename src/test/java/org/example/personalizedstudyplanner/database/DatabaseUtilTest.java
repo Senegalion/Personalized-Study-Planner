@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.database;
+package org.example.personalizedstudyplanner.database;
 
 import org.example.personalizedstudyplanner.database.DatabaseUtil;
 import org.junit.jupiter.api.Test;

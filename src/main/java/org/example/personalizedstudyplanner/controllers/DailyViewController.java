@@ -54,7 +54,7 @@ public class DailyViewController {
     }
 
     @FXML
-    private void handleAddEvent() {
+    protected void handleAddEvent() {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Assignment", "Assignment", "Exam", "Class Schedule");
         dialog.setTitle("Select Event Type");
         dialog.setHeaderText("Choose the type of event to add:");
@@ -69,13 +69,13 @@ public class DailyViewController {
 
 
     @FXML
-    private void handleBack(ActionEvent event) {
+    protected void handleBack(ActionEvent event) {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void handleViewProgress(ActionEvent event) {
+    protected void handleViewProgress(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/personalizedstudyplanner/ProgressView.fxml"));
             Parent root = loader.load();

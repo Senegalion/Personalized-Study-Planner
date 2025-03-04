@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class CalendarController {
     @FXML
-    private GridPane calendarGrid;
+    protected GridPane calendarGrid;
 
     @FXML
     private VBox mainContainer;
@@ -44,7 +44,7 @@ public class CalendarController {
         });
     }
 
-    private void generateCalendar() throws SQLException {
+    protected void generateCalendar() throws SQLException {
         if (calendarGrid == null) {
             System.err.println("Error: calendarGrid is null!");
             return;
@@ -258,14 +258,14 @@ public class CalendarController {
     }
 
     @FXML
-    private void handleBack(ActionEvent event) throws Exception {
+    protected void handleBack(ActionEvent event) throws Exception {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/SelectPlanner.fxml")));
         stage.setScene(new Scene(root, 800, 600));
     }
 
     @FXML
-    private void handleToday(ActionEvent event) {
+    protected void handleToday(ActionEvent event) {
         try {
             generateCalendar();
         } catch (SQLException e) {

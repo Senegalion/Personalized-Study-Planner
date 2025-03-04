@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.services;
+package org.example.personalizedstudyplanner.services;
 
 import org.example.personalizedstudyplanner.context.UserContext;
 import org.example.personalizedstudyplanner.database.DatabaseUtil;

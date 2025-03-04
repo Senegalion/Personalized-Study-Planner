@@ -43,7 +43,7 @@ public class ProgressController {
         loadExamProgress();
     }
 
-    private void loadAssignmentProgress() {
+    protected void loadAssignmentProgress() {
         assignmentProgressContainer.getChildren().clear();
         List<Assignment> assignments = studyEventService.getAssignmentsForDate(selectedDate);
 
@@ -68,7 +68,7 @@ public class ProgressController {
         }
     }
 
-    private void loadExamProgress() {
+    protected void loadExamProgress() {
         examProgressContainer.getChildren().clear();
         List<Exam> exams = studyEventService.getExamsForDate(selectedDate);
 
@@ -109,7 +109,7 @@ public class ProgressController {
     }
 
     @FXML
-    private void handleBack(ActionEvent event) {
+    protected void handleBack(ActionEvent event) {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.close();
     }

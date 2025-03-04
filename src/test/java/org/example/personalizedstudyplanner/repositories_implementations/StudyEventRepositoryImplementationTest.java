@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.context.repositories_implementations;
+package org.example.personalizedstudyplanner.repositories_implementations;
 
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
@@ -35,6 +35,7 @@ class StudyEventRepositoryImplementationTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
     }
+
 
     @Test
     void testGetAssignmentsForDate() throws SQLException {
