@@ -114,7 +114,7 @@ public class CalendarController {
 
             Stage stage = new Stage();
             stage.setTitle("Daily View - " + date);
-            stage.setScene(new Scene(root, 400, 400));
+            stage.setScene(new Scene(root, 600, 400));
             stage.show();
         } catch (Exception e) {
             showErrorAlert("Failed to open daily view.");

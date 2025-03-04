@@ -12,7 +12,7 @@ public class PersonalizedStudyPlannerApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PersonalizedStudyPlannerApplication.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        scene.getRoot().setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px;");
+//        scene.getRoot().setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14px;");
         stage.setTitle("Personalized Study Planner!");
         stage.setScene(scene);
         stage.show();
