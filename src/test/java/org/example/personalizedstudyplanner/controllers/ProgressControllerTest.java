@@ -121,6 +121,30 @@ class ProgressControllerTest {
     }
 
     @Test
+    void testCalculateExamPreparationProgress() throws InterruptedException {
+        Exam mockExam = mock(Exam.class);
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Platform.runLater(() -> {
+            try {
+                when(mockExam.getDate()).thenReturn(OffsetDateTime.now().minusDays(1));
+                assertEquals(1.0, controller.calculateExamPreparationProgress(mockExam));
+
+                when(mockExam.getDate()).thenReturn(OffsetDateTime.now());
+                assertEquals(1.0, controller.calculateExamPreparationProgress(mockExam));
+
+                when(mockExam.getDate()).thenReturn(OffsetDateTime.now().plusDays(10));
+                double expectedProgress = Math.min(1.0, (double) 3 / 10); // 3 days elapsed out of 10
+                assertEquals(expectedProgress, controller.calculateExamPreparationProgress(mockExam), 0.01);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        latch.await(5, TimeUnit.SECONDS);
+    }
+
+    @Test
     void testHandleBack_ShouldCloseStage() {
         ActionEvent mockEvent = mock(ActionEvent.class);
         javafx.scene.control.Button realButton = new javafx.scene.control.Button();
