@@ -1,0 +1,25 @@
+version: '3'
+services:
+  personalized-study-planner:
+    build: .
+    ports:
+      - "8085:8085"
+    environment:
+      - DB_URL=jdbc:postgresql://host.docker.internal:5432/personalized_study_planner
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: personalized_study_planner
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

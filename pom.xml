@@ -117,6 +117,7 @@
     </dependencies>
 
     <build>
+        <finalName>PersonalizedStudyPlanner</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +137,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.example.personalizedstudyplanner/org.example.personalizedstudyplanner.PersonalizedStudyPlannerApplication
+                                org.example.personalizedstudyplanner.PersonalizedStudyPlannerApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
