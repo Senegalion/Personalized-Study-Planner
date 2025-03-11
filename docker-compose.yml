@@ -1,0 +1,20 @@
+services:
+  study_planner_db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: studyplanner
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secretpassword
+    ports:
+      - "5432:5432"
+
+  study_planner_app:
+    build: .
+    depends_on:
+      - study_planner_db
+    environment:
+      DB_URL: jdbc:postgresql://localhost:5432/studyplanner
+      DB_USER: admin
+      DB_PASSWORD: secretpassword
+    ports:
+      - "8085:8080"

@@ -117,6 +117,7 @@
     </dependencies>
 
     <build>
+        <finalName>PersonalizedStudyPlanner</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -128,6 +129,18 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Main-Class>org.example.personalizedstudyplanner.PersonalizedStudyPlannerApplication</Main-Class>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
@@ -136,7 +149,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.example.personalizedstudyplanner/org.example.personalizedstudyplanner.PersonalizedStudyPlannerApplication
+                                org.example.personalizedstudyplanner.PersonalizedStudyPlannerApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
