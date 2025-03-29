@@ -1,6 +1,6 @@
 package org.example.personalizedstudyplanner.database;
 
-import org.example.personalizedstudyplanner.database.DatabaseUtil;
+import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;

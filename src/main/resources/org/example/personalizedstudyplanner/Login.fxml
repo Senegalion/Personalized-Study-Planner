@@ -7,24 +7,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="457.0" prefWidth="870.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.LoginController">
-    <Label alignment="CENTER" layoutX="200.0" layoutY="30.0" prefWidth="400" styleClass="title" text="Welcome to Study Planner" textAlignment="CENTER" textFill="#e8e6e6">
-      <font>
-         <Font name="Arial Bold" size="30.0" />
-      </font></Label>
+<AnchorPane prefHeight="457.0" prefWidth="870.0" styleClass="anchor-pane" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.personalizedstudyplanner.controllers.LoginController">
+
+    <Label alignment="CENTER" layoutX="200.0" layoutY="30.0" prefWidth="400" styleClass="title"
+           text="Welcome to Study Planner" textAlignment="CENTER" textFill="#e8e6e6">
+        <font>
+            <Font name="Arial Bold" size="30.0"/>
+        </font>
+    </Label>
 
     <Label layoutX="300" layoutY="120" styleClass="label" text="Email:">
-      <font>
-         <Font name="Arial" size="18.0" />
-      </font></Label>
-    <TextField fx:id="emailField" layoutX="300" layoutY="150" prefWidth="200" styleClass="text-field" />
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="emailField" layoutX="300" layoutY="150" prefWidth="200" styleClass="text-field"/>
 
     <Label layoutX="300.0" layoutY="212.0" styleClass="label" text="Password:">
-      <font>
-         <Font name="Arial" size="18.0" />
-      </font></Label>
-    <PasswordField fx:id="passwordField" layoutX="300.0" layoutY="242.0" prefWidth="200" styleClass="password-field" />
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <PasswordField fx:id="passwordField" layoutX="300.0" layoutY="242.0" prefWidth="200" styleClass="password-field"/>
 
-    <Button layoutX="300.0" layoutY="300.0" onAction="#handleLogin" styleClass="button" text="Login" />
-    <Button layoutX="398.0" layoutY="300.0" onAction="#goToRegistration" styleClass="button" text="Register" />
+    <Button fx:id="loginButton" layoutX="300.0" layoutY="300.0" onAction="#handleLogin" styleClass="button"
+            text="Login"/>
+    <Button fx:id="registerButton" layoutX="398.0" layoutY="300.0" onAction="#goToRegistration" styleClass="button"
+            text="Register"/>
+
+    <Button text="EN" onAction="#changeLanguage" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0"/>
+    <Button text="PL" onAction="#changeLanguage" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="20.0"/>
+
 </AnchorPane>

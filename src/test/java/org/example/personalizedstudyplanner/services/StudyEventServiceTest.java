@@ -1,10 +1,9 @@
 package org.example.personalizedstudyplanner.services;
 
 import org.example.personalizedstudyplanner.context.StudyPlanContext;
-import org.example.personalizedstudyplanner.database.DatabaseUtil;
+import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
-import org.example.personalizedstudyplanner.services.StudyEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

@@ -1,4 +1,4 @@
-package org.example.personalizedstudyplanner.database;
+package org.example.personalizedstudyplanner.config.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
