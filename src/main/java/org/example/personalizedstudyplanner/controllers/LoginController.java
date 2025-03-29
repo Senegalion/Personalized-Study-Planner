@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.context.UserContext;
@@ -27,9 +24,14 @@ public class LoginController {
     public Button registerButton;
     @FXML
     private TextField emailField;
-
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private Label passwordLabel;
 
     private ResourceBundle rb;
 
@@ -43,11 +45,15 @@ public class LoginController {
     }
 
     private void updateUI() {
+        // Ustawiamy teksty na elementach
+        welcomeLabel.setText(rb.getString("welcomeTitle"));
+        emailLabel.setText(rb.getString("emailLabel"));
+        passwordLabel.setText(rb.getString("passwordLabel"));
+        loginButton.setText(rb.getString("loginButton"));
+        registerButton.setText(rb.getString("registerButton"));
+
         emailField.setPromptText(rb.getString("login.email"));
         passwordField.setPromptText(rb.getString("login.password"));
-
-        loginButton.setText(rb.getString("button.login"));
-        registerButton.setText(rb.getString("button.register"));
     }
 
     @FXML

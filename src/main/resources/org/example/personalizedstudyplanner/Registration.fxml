@@ -7,44 +7,64 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="675.0" prefWidth="897.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.example.personalizedstudyplanner.controllers.RegistrationController">
-    <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200" layoutY="30" prefWidth="400.0" text="Register for the Study Planner">
-         <font>
-            <Font name="Arial Bold" size="25.0" />
-         </font></Label>
+<AnchorPane prefHeight="675.0" prefWidth="897.0" styleClass="anchor-pane" stylesheets="@style.css"
+            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
+            fx:controller="org.example.personalizedstudyplanner.controllers.RegistrationController">
+    <!-- Tytuł aplikacji -->
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200" layoutY="30" prefWidth="400.0" fx:id="titleLabel">
+        <font>
+            <Font name="Arial Bold" size="25.0"/>
+        </font>
+    </Label>
 
-        <Label layoutX="300" layoutY="80" text="Name:">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font></Label>
-        <TextField fx:id="nameField" layoutX="300.0" layoutY="110.0" prefWidth="200" styleClass="text-field" />
+    <!-- Etykieta Name -->
+    <Label layoutX="300" layoutY="80" fx:id="nameLabel">
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="nameField" layoutX="300.0" layoutY="110.0" prefWidth="200" styleClass="text-field"/>
 
-        <Label layoutX="300.0" layoutY="170.0"  text="Surname:">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font></Label>
-        <TextField fx:id="surnameField" layoutX="300.0" layoutY="200.0" prefWidth="200" styleClass="text-field" />
+    <!-- Etykieta Surname -->
+    <Label layoutX="300.0" layoutY="170.0" fx:id="surnameLabel">
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="surnameField" layoutX="300.0" layoutY="200.0" prefWidth="200" styleClass="text-field"/>
 
-        <Label layoutX="300.0" layoutY="260.0"  text="PESEL:">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font></Label>
-        <TextField fx:id="peselField" layoutX="300.0" layoutY="290.0" prefWidth="200" styleClass="text-field" />
+    <!-- Etykieta PESEL -->
+    <Label layoutX="300.0" layoutY="260.0" fx:id="peselLabel">
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="peselField" layoutX="300.0" layoutY="290.0" prefWidth="200" styleClass="text-field"/>
 
-        <Label layoutX="300.0" layoutY="350.0"  text="Email:">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font></Label>
-        <TextField fx:id="emailField" layoutX="300.0" layoutY="380.0" prefWidth="200" styleClass="text-field" />
+    <!-- Etykieta Email -->
+    <Label layoutX="300.0" layoutY="350.0" fx:id="emailLabel">
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="emailField" layoutX="300.0" layoutY="380.0" prefWidth="200" styleClass="text-field"/>
 
-        <Label layoutX="300.0" layoutY="440.0"  text="Password:">
-         <font>
-            <Font name="Arial" size="18.0" />
-         </font></Label>
-        <PasswordField fx:id="passwordField" layoutX="300.0" layoutY="470.0" prefWidth="200" styleClass="password-field" />
+    <!-- Etykieta Password -->
+    <Label layoutX="300.0" layoutY="440.0" fx:id="passwordLabel">
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Label>
+    <PasswordField fx:id="passwordField" layoutX="300.0" layoutY="470.0" prefWidth="200" styleClass="password-field"/>
 
-        <Button layoutX="300.0" layoutY="536.0" onAction="#handleRegister" styleClass="button" text="Register" />
-        <Button layoutX="410.0" layoutY="536.0" onAction="#goToLogin" styleClass="button" text="Back to Login" />
-    </children>
+    <!-- Przycisk Register -->
+    <Button layoutX="280.0" layoutY="536.0" onAction="#handleRegister" styleClass="button" fx:id="registerButton"/>
+
+    <!-- Przycisk Back to Login -->
+    <Button layoutX="410.0" layoutY="536.0" onAction="#goToLogin" styleClass="button" fx:id="loginButton"/>
+
+    <!-- Przycisk do zmiany języka -->
+    <Button text="EN" onAction="#changeLanguage" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
+    <Button text="PL" onAction="#changeLanguage" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="20.0"/>
+
 </AnchorPane>
