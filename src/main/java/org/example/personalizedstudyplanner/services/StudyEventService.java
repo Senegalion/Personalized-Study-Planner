@@ -1,7 +1,7 @@
 package org.example.personalizedstudyplanner.services;
 
 import org.example.personalizedstudyplanner.context.StudyPlanContext;
-import org.example.personalizedstudyplanner.database.DatabaseUtil;
+import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.models.Address;
 import org.example.personalizedstudyplanner.models.Assignment;
 import org.example.personalizedstudyplanner.models.ClassSchedule;

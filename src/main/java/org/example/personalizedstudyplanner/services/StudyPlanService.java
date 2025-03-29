@@ -1,7 +1,7 @@
 package org.example.personalizedstudyplanner.services;
 
 import org.example.personalizedstudyplanner.context.UserContext;
-import org.example.personalizedstudyplanner.database.DatabaseUtil;
+import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.repositories.StudyPlanRepository;
 import org.example.personalizedstudyplanner.repositories_implementations.StudyPlanRepositoryImplementation;
