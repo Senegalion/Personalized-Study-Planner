@@ -6,13 +6,11 @@
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.personalizedstudyplanner.controllers.DashboardController">
 
-    <!-- Przyciski zmiany języka w lewym górnym rogu -->
     <HBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">
         <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="secondary-button" text="PL"/>
         <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="secondary-button" text="EN"/>
     </HBox>
 
-    <!-- Centrum ekranu z wyśrodkowaną zawartością -->
     <StackPane prefHeight="1000" prefWidth="1000" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="0"
                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <VBox alignment="CENTER" spacing="20">

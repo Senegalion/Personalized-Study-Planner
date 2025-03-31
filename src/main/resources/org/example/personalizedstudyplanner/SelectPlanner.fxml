@@ -8,14 +8,19 @@
       fx:controller="org.example.personalizedstudyplanner.controllers.SelectPlannerController"
       stylesheets="@style.css" styleClass="root-pane">
 
-    <Label text="Select Your Existing Study Planner" styleClass="title"/>
+    <HBox spacing="10">
+        <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="language-button" text="PL"/>
+        <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="language-button" text="EN"/>
+    </HBox>
+
+    <Label fx:id="titleLabel" styleClass="title" text="Select Your Existing Study Planner"/>
 
     <ListView fx:id="plannerListView" prefWidth="300" prefHeight="200" styleClass="list-view"/>
 
     <HBox spacing="10">
-        <Button text="Select" onAction="#handleSelectPlanner" styleClass="primary-button"/>
-        <Button text="Delete" onAction="#handleDeletePlanner" styleClass="danger-button"/>
-        <Button text="Back" onAction="#goBack" styleClass="secondary-button"/>
+        <Button fx:id="selectButton" text="Select" onAction="#handleSelectPlanner" styleClass="primary-button"/>
+        <Button fx:id="deleteButton" text="Delete" onAction="#handleDeletePlanner" styleClass="danger-button"/>
+        <Button fx:id="backButton" text="Back" onAction="#goBack" styleClass="secondary-button"/>
     </HBox>
 
 </VBox>

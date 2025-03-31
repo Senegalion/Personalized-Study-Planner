@@ -33,6 +33,14 @@ public class StudyPlan {
         this.studentId = studentId;
     }
 
+    public OffsetDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(OffsetDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -47,13 +55,5 @@ public class StudyPlan {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public OffsetDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(OffsetDateTime creationDate) {
-        this.creationDate = creationDate;
     }
 }
