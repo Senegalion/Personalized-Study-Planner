@@ -146,7 +146,7 @@ public class CalendarController {
             Parent root = loader.load();
 
             DailyViewController controller = loader.getController();
-            controller.setDate(date, StudyPlanContext.getCurrentStudyPlanId());
+            controller.setDate(date, StudyPlanContext.getCurrentStudyPlanId(), currentLocale);
 
             Stage stage = new Stage();
             stage.setTitle("Daily View - " + date);
