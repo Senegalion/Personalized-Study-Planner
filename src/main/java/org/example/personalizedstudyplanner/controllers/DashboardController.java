@@ -5,30 +5,78 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.util.Objects;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class DashboardController {
+    @FXML
+    public Button languagePLButton;
+    @FXML
+    public Button languageENButton;
+    @FXML
+    private Label titleLabel;
+
+    @FXML
+    private Button createPlannerButton;
+
+    @FXML
+    private Button selectPlannerButton;
+
+    @FXML
+    private Button logoutButton;
+
+    private ResourceBundle rb;
+    private Locale currentLocale = Locale.getDefault();
+
+    public void initialize() {
+        setLanguage(currentLocale);
+    }
+
+    private void setLanguage(Locale locale) {
+        rb = ResourceBundle.getBundle("messages", locale);
+        updateUI();
+    }
+
+    private void updateUI() {
+        titleLabel.setText(rb.getString("welcomeTitle"));
+        createPlannerButton.setText(rb.getString("button.createPlanner"));
+        selectPlannerButton.setText(rb.getString("button.viewPlanners"));
+        logoutButton.setText(rb.getString("button.logout"));
+    }
 
     @FXML
     public void handleCreatePlanner(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/CreatePlanner.fxml")));
-        stage.setScene(new Scene(root, 800, 600));
+        changeScene(event, "/org/example/personalizedstudyplanner/CreatePlanner.fxml");
     }
 
     @FXML
     public void handleSelectPlanner(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/SelectPlanner.fxml")));
-        stage.setScene(new Scene(root, 800, 600));
+        changeScene(event, "/org/example/personalizedstudyplanner/SelectPlanner.fxml");
     }
 
     @FXML
     public void handleLogout(ActionEvent event) throws Exception {
+        changeScene(event, "/org/example/personalizedstudyplanner/Login.fxml");
+    }
+
+    @FXML
+    public void handleChangeLanguagePL(ActionEvent event) {
+        setLanguage(new Locale("pl", "PL"));
+    }
+
+    @FXML
+    public void handleChangeLanguageEN(ActionEvent event) {
+        setLanguage(new Locale("en", "US"));
+    }
+
+    private void changeScene(ActionEvent event, String fxmlPath) throws Exception {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Login.fxml")));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath), rb);
+        Parent root = loader.load();
         stage.setScene(new Scene(root, 800, 600));
     }
 }

@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane styleClass="root-pane" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.personalizedstudyplanner.controllers.DashboardController">
 
-<VBox alignment="CENTER" spacing="20" styleClass="root-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.DashboardController">
+    <HBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">
+        <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="secondary-button" text="PL"/>
+        <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="secondary-button" text="EN"/>
+    </HBox>
 
-    <Label styleClass="title" text="Study Planner Dashboard" />
+    <StackPane prefHeight="1000" prefWidth="1000" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="0"
+               AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <VBox alignment="CENTER" spacing="20">
+            <Label fx:id="titleLabel" styleClass="title" text="Study Planner Dashboard"/>
 
-    <VBox alignment="TOP_CENTER" spacing="10">
-        <Button onAction="#handleCreatePlanner" styleClass="primary-button" text="Create New Planner" />
-        <Button onAction="#handleSelectPlanner" styleClass="primary-button" text="View Existing Planners" />
-        <Button onAction="#handleLogout" styleClass="danger-button" text="Logout" />
-    </VBox>
+            <VBox alignment="TOP_CENTER" spacing="10">
+                <Button fx:id="createPlannerButton" onAction="#handleCreatePlanner" styleClass="primary-button"
+                        text="Create New Planner"/>
+                <Button fx:id="selectPlannerButton" onAction="#handleSelectPlanner" styleClass="primary-button"
+                        text="View Existing Planners"/>
+                <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="danger-button" text="Logout"/>
+            </VBox>
+        </VBox>
+    </StackPane>
 
-</VBox>
+</AnchorPane>

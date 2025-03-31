@@ -5,15 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.services.StudyPlanService;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class CreateStudyPlanController {
     @FXML
@@ -22,7 +21,16 @@ public class CreateStudyPlanController {
     @FXML
     private TextArea descriptionField;
 
+    @FXML
+    private Button languagePLButton, languageENButton, createPlannerButton, cancelButton;
+
+    @FXML
+    private Label titleLabel;
+
     private StudyPlanService studyPlanService;
+
+    private ResourceBundle rb;
+    private Locale currentLocale = Locale.getDefault();
 
     public CreateStudyPlanController() {
         this.studyPlanService = new StudyPlanService();
@@ -30,6 +38,30 @@ public class CreateStudyPlanController {
 
     @FXML
     public void initialize() {
+        setLanguage(currentLocale);
+    }
+
+    private void setLanguage(Locale locale) {
+        rb = ResourceBundle.getBundle("messages", locale);
+        updateUI();
+    }
+
+    private void updateUI() {
+        titleLabel.setText(rb.getString("createPlanner.title"));
+        titleField.setPromptText(rb.getString("createPlanner.enterTitle"));
+        descriptionField.setPromptText(rb.getString("createPlanner.enterDescription"));
+        createPlannerButton.setText(rb.getString("button.createPlanner"));
+        cancelButton.setText(rb.getString("button.cancel"));
+    }
+
+    @FXML
+    private void handleChangeLanguagePL(ActionEvent event) {
+        setLanguage(new Locale("pl", "PL"));
+    }
+
+    @FXML
+    private void handleChangeLanguageEN(ActionEvent event) {
+        setLanguage(new Locale("en", "US"));
     }
 
     @FXML
@@ -38,21 +70,16 @@ public class CreateStudyPlanController {
         String description = descriptionField.getText();
 
         if (title.isEmpty() || description.isEmpty()) {
-            showAlert("Input Error", "All fields are required!", Alert.AlertType.ERROR);
+            showAlert(rb.getString("error.title"), rb.getString("error.emptyFields"), Alert.AlertType.ERROR);
             return;
         }
 
         try {
             studyPlanService.createStudyPlan(title, description);
-
-            showAlert("Study Plan Created", "Your study plan has been created successfully!", Alert.AlertType.INFORMATION);
-
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Dashboard.fxml")));
-            stage.setScene(new Scene(root, 800, 600));
-
-        } catch (SQLException | IOException e) {
-            showAlert("Database Error", "There was an error saving your study plan.", Alert.AlertType.ERROR);
+            showAlert(rb.getString("success.title"), rb.getString("success.studyPlanCreated"), Alert.AlertType.INFORMATION);
+            goBack(event);
+        } catch (SQLException e) {
+            showAlert(rb.getString("error.title"), rb.getString("error.database"), Alert.AlertType.ERROR);
         }
     }
 
@@ -65,10 +92,19 @@ public class CreateStudyPlanController {
     }
 
     @FXML
-    public void goBack(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Dashboard.fxml")));
-        stage.setScene(new Scene(root, 800, 600));
+    public void goBack(ActionEvent event) {
+        changeScene(event, "/org/example/personalizedstudyplanner/Dashboard.fxml");
+    }
+
+    private void changeScene(ActionEvent event, String fxmlPath) {
+        try {
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath), rb);
+            Parent root = loader.load();
+            stage.setScene(new Scene(root, 800, 600));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public TextField getTitleField() {

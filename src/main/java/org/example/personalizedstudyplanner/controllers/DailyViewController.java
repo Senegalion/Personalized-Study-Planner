@@ -18,6 +18,8 @@ import org.example.personalizedstudyplanner.services.StudyEventService;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class DailyViewController {
     @FXML
@@ -26,16 +28,35 @@ public class DailyViewController {
     private ListView<String> eventsListView;
     @FXML
     private Button addEventButton;
-
+    @FXML
+    private Button viewProgressButton;
+    @FXML
+    private Button goBackButton;
     private final StudyEventService studyEventService = new StudyEventService();
     private LocalDate selectedDate;
     private int studyPlanId;
+    private Locale currentLocale;
+    private ResourceBundle rb;
 
-    public void setDate(LocalDate date, int studyPlanId) {
+    public void setDate(LocalDate date, int studyPlanId, Locale locale) {
         this.selectedDate = date;
         this.studyPlanId = studyPlanId;
-        dateLabel.setText("Events for " + selectedDate);
+        this.currentLocale = locale;
+        setLanguage(locale);
+        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
         loadEvents();
+    }
+
+    private void setLanguage(Locale locale) {
+        rb = ResourceBundle.getBundle("messages", locale);
+        updateUI();
+    }
+
+    private void updateUI() {
+        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        addEventButton.setText(rb.getString("dailyView.addEvent"));
+        viewProgressButton.setText(rb.getString("viewProgress"));
+        goBackButton.setText(rb.getString("goBack"));
     }
 
     private void loadEvents() {
@@ -44,12 +65,12 @@ public class DailyViewController {
         List<Exam> exams = studyEventService.getExamsForDate(selectedDate);
         List<ClassSchedule> classes = studyEventService.getClassesForDate(selectedDate);
 
-        for (Assignment a : assignments) eventsListView.getItems().add("📌 Assignment: " + a.getTitle());
-        for (Exam e : exams) eventsListView.getItems().add("📝 Exam: " + e.getSubject());
-        for (ClassSchedule c : classes) eventsListView.getItems().add("📚 Class: " + c.getClassName());
+        for (Assignment a : assignments) eventsListView.getItems().add("📌 " + rb.getString("assignment") + ": " + a.getTitle());
+        for (Exam e : exams) eventsListView.getItems().add("📝 " + rb.getString("exam") + ": " + e.getSubject());
+        for (ClassSchedule c : classes) eventsListView.getItems().add("📚 " + rb.getString("class") + ": " + c.getClassName());
 
         if (eventsListView.getItems().isEmpty()) {
-            eventsListView.getItems().add("No events planned.");
+            eventsListView.getItems().add(rb.getString("dailyView.noEvents"));
         }
     }
 
@@ -90,5 +111,19 @@ public class DailyViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    protected void handleChangeLanguageToPolish(ActionEvent event) {
+        setLanguage(new Locale("pl", "PL"));
+        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        loadEvents();
+    }
+
+    @FXML
+    protected void handleChangeLanguageToEnglish(ActionEvent event) {
+        setLanguage(new Locale("en", "US"));
+        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        loadEvents();
     }
 }

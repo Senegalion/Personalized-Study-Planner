@@ -7,16 +7,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="469.0" prefWidth="827.0" spacing="10" style="-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C1E8FB);" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.personalizedstudyplanner.controllers.CalendarController">
+<VBox prefHeight="469.0" prefWidth="827.0" spacing="10"
+      style="-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C1E8FB);"
+      stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.personalizedstudyplanner.controllers.CalendarController">
 
-    <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="📅 Study Plan Calendar" />
+    <HBox spacing="10" style="-fx-padding: 10;">
+        <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="secondary-button" text="PL"/>
+        <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="secondary-button" text="EN"/>
+    </HBox>
+
+    <Label fx:id="titleLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="📅 Study Plan Calendar"/>
 
     <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-border-radius: 10;">
-        <GridPane fx:id="calendarGrid" alignment="CENTER" hgap="10" style="-fx-border-color: black; -fx-border-radius: 10; -fx-padding: 15; -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C1E8FB);" vgap="10" />
+        <GridPane fx:id="calendarGrid" alignment="CENTER" hgap="10"
+                  style="-fx-border-color: black; -fx-border-radius: 10; -fx-padding: 15; -fx-background-color: linear-gradient(to bottom, #A1C4FD, #C1E8FB);"
+                  vgap="10"/>
     </ScrollPane>
 
     <HBox alignment="CENTER" spacing="10">
-        <Button onAction="#handleToday" styleClass="primary-button" text="📅 Today" />
-        <Button onAction="#handleBack" styleClass="secondary-button" text="🔙 Go Back" />
+        <Button fx:id="todayButton" onAction="#handleToday" styleClass="primary-button" text="📅 Today"/>
+        <Button fx:id="backButton" onAction="#handleBack" styleClass="secondary-button" text="🔙 Go Back"/>
     </HBox>
 </VBox>

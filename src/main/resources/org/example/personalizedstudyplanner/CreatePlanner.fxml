@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<VBox alignment="CENTER" spacing="15" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.personalizedstudyplanner.controllers.CreateStudyPlanController"
-      stylesheets="@style.css" styleClass="root-pane">
+<?import javafx.scene.layout.*?>
+<AnchorPane styleClass="root-pane" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.personalizedstudyplanner.controllers.CreateStudyPlanController">
 
-    <Label text="Create New Study Plan" styleClass="title"/>
-
-    <TextField fx:id="titleField" promptText="Enter Study Plan Title" styleClass="input-field"/>
-
-    <TextArea fx:id="descriptionField" promptText="Enter Study Plan Description"
-              prefHeight="100" wrapText="true" styleClass="input-area"/>
-
-    <HBox spacing="10">
-        <Button text="Create Plan" onAction="#handleCreateStudyPlan" styleClass="primary-button"/>
-        <Button text="Cancel" onAction="#goBack" styleClass="secondary-button"/>
+    <HBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">
+        <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="secondary-button" text="PL"/>
+        <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="secondary-button" text="EN"/>
     </HBox>
 
-</VBox>
+    <StackPane prefHeight="1000" prefWidth="1000" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="0"
+               AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <VBox alignment="CENTER" spacing="20">
+            <Label fx:id="titleLabel" styleClass="title" text="Utwórz nowy plan nauki"/>
+
+            <TextField fx:id="titleField" promptText="Wpisz tytuł planu nauki" styleClass="input-field"/>
+            <TextArea fx:id="descriptionField" promptText="Wpisz opis planu nauki"
+                      prefHeight="100" wrapText="true" styleClass="input-area"/>
+
+            <VBox alignment="TOP_CENTER" spacing="10">
+                <Button fx:id="createPlannerButton" onAction="#handleCreateStudyPlan" styleClass="primary-button"
+                        text="Utwórz Plan"/>
+                <Button fx:id="cancelButton" onAction="#goBack" styleClass="secondary-button" text="Anuluj"/>
+            </VBox>
+        </VBox>
+    </StackPane>
+
+</AnchorPane>
