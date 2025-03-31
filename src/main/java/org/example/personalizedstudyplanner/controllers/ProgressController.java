@@ -3,6 +3,7 @@ package org.example.personalizedstudyplanner.controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -17,16 +18,28 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ProgressController {
     @FXML
     private VBox assignmentProgressContainer;
     @FXML
     private VBox examProgressContainer;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button languagePolishButton;
+    @FXML
+    private Button languageEnglishButton;
 
     private final StudyEventService studyEventService = new StudyEventService();
     private LocalDate selectedDate;
     private int studyPlanId;
+    private Locale currentLocale;
+    private ResourceBundle rb;
 
     @FXML
     public void initialize() {
@@ -41,6 +54,19 @@ public class ProgressController {
         this.studyPlanId = studyPlanId;
         loadAssignmentProgress();
         loadExamProgress();
+    }
+
+    private void setLanguage(Locale locale) {
+        this.currentLocale = locale;
+        rb = ResourceBundle.getBundle("messages", locale);
+        updateUI();
+    }
+
+    private void updateUI() {
+        titleLabel.setText(rb.getString("progressView.title"));
+        backButton.setText(rb.getString("goBack"));
+        languagePolishButton.setText(rb.getString("language.polish"));
+        languageEnglishButton.setText(rb.getString("language.english"));
     }
 
     protected void loadAssignmentProgress() {
@@ -112,6 +138,16 @@ public class ProgressController {
     protected void handleBack(ActionEvent event) {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    protected void handleChangeLanguageToPolish(ActionEvent event) {
+        setLanguage(new Locale("pl", "PL"));
+    }
+
+    @FXML
+    protected void handleChangeLanguageToEnglish(ActionEvent event) {
+        setLanguage(new Locale("en", "US"));
     }
 }
 

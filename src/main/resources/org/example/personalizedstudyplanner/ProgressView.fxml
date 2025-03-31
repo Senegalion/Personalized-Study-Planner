@@ -1,6 +1,5 @@
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml"
@@ -8,7 +7,14 @@
       spacing="10"
       style="-fx-padding: 20; -fx-background-color: #f4f4f4;">
 
-    <Label text="📊 Study Progress" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <HBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 10;">
+        <Button fx:id="languagePolishButton" onAction="#handleChangeLanguageToPolish" styleClass="primary-button"
+                text="PL"/>
+        <Button fx:id="languageEnglishButton" onAction="#handleChangeLanguageToEnglish" styleClass="primary-button"
+                text="EN"/>
+    </HBox>
+
+    <Label fx:id="titleLabel" text="📊 Study Progress" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
     <ScrollPane fitToWidth="true" fitToHeight="true">
         <VBox fx:id="assignmentProgressContainer" spacing="10"/>
@@ -18,5 +24,5 @@
         <VBox fx:id="examProgressContainer" spacing="10"/>
     </ScrollPane>
 
-    <Button text="🔙 Back" onAction="#handleBack"/>
+    <Button fx:id="backButton" text="🔙 Back" onAction="#handleBack"/>
 </VBox>
