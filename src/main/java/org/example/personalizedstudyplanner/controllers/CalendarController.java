@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.models.*;
@@ -19,21 +16,37 @@ import org.example.personalizedstudyplanner.services.StudyEventService;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class CalendarController {
     @FXML
     protected GridPane calendarGrid;
+    @FXML
+    private HBox topBar;
 
     @FXML
-    private VBox mainContainer;
+    private Label titleLabel;
 
+    @FXML
+    private Button todayButton;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private Button languagePLButton;
+
+    @FXML
+    private Button languageENButton;
+    @FXML
+    private VBox mainContainer;
+    private ResourceBundle rb;
+    private Locale currentLocale = Locale.getDefault();
     private final StudyEventService studyEventService = new StudyEventService();
 
     @FXML
     public void initialize() {
+        setLanguage(currentLocale);
         Platform.runLater(() -> {
             try {
                 generateCalendar();
@@ -42,6 +55,27 @@ public class CalendarController {
                 showErrorAlert("Failed to load calendar.");
             }
         });
+    }
+
+    private void setLanguage(Locale locale) {
+        rb = ResourceBundle.getBundle("messages", locale);
+        updateUI();
+    }
+
+    private void updateUI() {
+        titleLabel.setText(rb.getString("calendar.title"));
+        todayButton.setText(rb.getString("calendar.today"));
+        backButton.setText(rb.getString("calendar.goBack"));
+    }
+
+    @FXML
+    public void handleChangeLanguagePL(ActionEvent event) {
+        setLanguage(new Locale("pl", "PL"));
+    }
+
+    @FXML
+    public void handleChangeLanguageEN(ActionEvent event) {
+        setLanguage(new Locale("en", "US"));
     }
 
     protected void generateCalendar() throws SQLException {
@@ -77,6 +111,8 @@ public class CalendarController {
         int column = firstDayOfMonth.getDayOfWeek().getValue() % 7;
         int row = 1;
 
+        String noEventsText = rb.getString("calendar.noEvents");
+
         for (int day = 1; day <= today.lengthOfMonth(); day++) {
             LocalDate date = today.withDayOfMonth(day);
 
@@ -88,7 +124,7 @@ public class CalendarController {
             dayLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
             String eventText = getEventsForDay(date);
-            Label eventLabel = new Label(eventText.isEmpty() ? "No Events" : eventText);
+            Label eventLabel = new Label(eventText.isEmpty() ? noEventsText : eventText);
             eventLabel.setWrapText(true);
 
             dayBox.getChildren().addAll(dayLabel, eventLabel);
