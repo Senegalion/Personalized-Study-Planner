@@ -1,6 +1,9 @@
 package org.example.personalizedstudyplanner.models;
 
+import org.example.personalizedstudyplanner.context.LocaleContext;
+
 import java.time.OffsetDateTime;
+import java.util.Locale;
 
 public class Assignment {
     private int assignmentId;
@@ -8,15 +11,17 @@ public class Assignment {
     private String title;
     private String description;
     private OffsetDateTime dueDate;
-    private AssignmentStatus status;
+    private AssignmentStatus statusEn;
+    private AssignmentStatus statusPl;
 
-    public Assignment(int assignmentId, int studyPlanId, String title, String description, OffsetDateTime dueDate, AssignmentStatus status) {
+    public Assignment(int assignmentId, int studyPlanId, String title, String description, OffsetDateTime dueDate, AssignmentStatus statusEn, AssignmentStatus statusPl) {
         this.assignmentId = assignmentId;
         this.studyPlanId = studyPlanId;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-        this.status = status;
+        this.statusEn = statusEn;
+        this.statusPl = statusPl;
     }
 
     public int getAssignmentId() {
@@ -60,10 +65,32 @@ public class Assignment {
     }
 
     public AssignmentStatus getStatus() {
-        return status;
+        Locale currentLocale = LocaleContext.getCurrentLocale();
+        return currentLocale.equals(new Locale("pl", "PL")) ? statusPl : statusEn;
     }
 
     public void setStatus(AssignmentStatus status) {
-        this.status = status;
+        Locale currentLocale = LocaleContext.getCurrentLocale();
+        if (currentLocale.equals(new Locale("pl", "PL"))) {
+            this.statusPl = status;
+        } else {
+            this.statusEn = status;
+        }
+    }
+
+    public AssignmentStatus getStatusEn() {
+        return statusEn;
+    }
+
+    public void setStatusEn(AssignmentStatus statusEn) {
+        this.statusEn = statusEn;
+    }
+
+    public AssignmentStatus getStatusPl() {
+        return statusPl;
+    }
+
+    public void setStatusPl(AssignmentStatus statusPl) {
+        this.statusPl = statusPl;
     }
 }

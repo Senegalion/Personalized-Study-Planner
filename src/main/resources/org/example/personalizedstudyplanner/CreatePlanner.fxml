@@ -16,9 +16,14 @@
         <VBox alignment="CENTER" spacing="20">
             <Label fx:id="titleLabel" styleClass="title" text="Utwórz nowy plan nauki"/>
 
-            <TextField fx:id="titleField" promptText="Wpisz tytuł planu nauki" styleClass="input-field"/>
-            <TextArea fx:id="descriptionField" promptText="Wpisz opis planu nauki"
-                      prefHeight="100" wrapText="true" styleClass="input-area"/>
+            <TextField fx:id="titleENField" promptText="English Title" />
+            <TextArea fx:id="descriptionENField" promptText="English Description" />
+
+            <TextField fx:id="titlePLField" promptText="Polski Tytuł" />
+            <TextArea fx:id="descriptionPLField" promptText="Polski Opis" />
+
+            <TextField fx:id="titleZHField" promptText="中文标题" />
+            <TextArea fx:id="descriptionZHField" promptText="中文描述" />
 
             <VBox alignment="TOP_CENTER" spacing="10">
                 <Button fx:id="createPlannerButton" onAction="#handleCreateStudyPlan" styleClass="primary-button"

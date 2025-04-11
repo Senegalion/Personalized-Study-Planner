@@ -268,7 +268,7 @@ public class CalendarController {
 
                 switch (eventType) {
                     case "Assignment":
-                        studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING));
+                        studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING, AssignmentStatus.PENDING));
                         break;
                     case "Exam":
                         studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0, AssignmentStatus.PENDING), address);

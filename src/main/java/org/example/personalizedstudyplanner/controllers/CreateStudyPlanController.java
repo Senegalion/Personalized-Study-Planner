@@ -16,16 +16,25 @@ import java.util.ResourceBundle;
 
 public class CreateStudyPlanController {
     @FXML
-    private TextField titleField;
-
-    @FXML
-    private TextArea descriptionField;
-
-    @FXML
     private Button languagePLButton, languageENButton, createPlannerButton, cancelButton;
 
     @FXML
     private Label titleLabel;
+
+    @FXML
+    private TextField titleENField;
+    @FXML
+    private TextArea descriptionENField;
+
+    @FXML
+    private TextField titlePLField;
+    @FXML
+    private TextArea descriptionPLField;
+
+    @FXML
+    private TextField titleZHField;
+    @FXML
+    private TextArea descriptionZHField;
 
     private StudyPlanService studyPlanService;
 
@@ -48,8 +57,6 @@ public class CreateStudyPlanController {
 
     private void updateUI() {
         titleLabel.setText(rb.getString("createPlanner.title"));
-        titleField.setPromptText(rb.getString("createPlanner.enterTitle"));
-        descriptionField.setPromptText(rb.getString("createPlanner.enterDescription"));
         createPlannerButton.setText(rb.getString("button.createPlanner"));
         cancelButton.setText(rb.getString("button.cancel"));
     }
@@ -66,19 +73,24 @@ public class CreateStudyPlanController {
 
     @FXML
     public void handleCreateStudyPlan(ActionEvent event) {
-        String title = titleField.getText();
-        String description = descriptionField.getText();
+        String titleEN = titleENField.getText();
+        String descEN = descriptionENField.getText();
+        String titlePL = titlePLField.getText();
+        String descPL = descriptionPLField.getText();
+        String titleZH = titleZHField.getText();
+        String descZH = descriptionZHField.getText();
 
-        if (title.isEmpty() || description.isEmpty()) {
+        if (titleEN.isEmpty() || descEN.isEmpty() || titlePL.isEmpty() || descPL.isEmpty()) {
             showAlert(rb.getString("error.title"), rb.getString("error.emptyFields"), Alert.AlertType.ERROR);
             return;
         }
 
         try {
-            studyPlanService.createStudyPlan(title, description);
+            studyPlanService.createStudyPlanWithTranslations(titleEN, descEN, titlePL, descPL, titleZH, descZH);
             showAlert(rb.getString("success.title"), rb.getString("success.studyPlanCreated"), Alert.AlertType.INFORMATION);
             goBack(event);
         } catch (SQLException e) {
+            e.printStackTrace();
             showAlert(rb.getString("error.title"), rb.getString("error.database"), Alert.AlertType.ERROR);
         }
     }
@@ -105,22 +117,6 @@ public class CreateStudyPlanController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public TextField getTitleField() {
-        return titleField;
-    }
-
-    public void setTitleField(TextField titleField) {
-        this.titleField = titleField;
-    }
-
-    public TextArea getDescriptionField() {
-        return descriptionField;
-    }
-
-    public void setDescriptionField(TextArea descriptionField) {
-        this.descriptionField = descriptionField;
     }
 
     public StudyPlanService getStudyPlanService() {

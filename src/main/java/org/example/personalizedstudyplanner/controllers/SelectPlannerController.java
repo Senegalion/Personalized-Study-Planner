@@ -69,7 +69,18 @@ public class SelectPlannerController {
             @Override
             protected void updateItem(StudyPlan item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getTitle() + " - " + item.getDescription());
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    String lang = currentLocale.getLanguage();
+                    String title = item.getTranslations().containsKey(lang)
+                            ? item.getTranslations().get(lang).getTitle()
+                            : "[No title]";
+                    String desc = item.getTranslations().containsKey(lang)
+                            ? item.getTranslations().get(lang).getDescription()
+                            : "[No description]";
+                    setText(title + " - " + desc);
+                }
             }
         });
     }
@@ -116,7 +127,11 @@ public class SelectPlannerController {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle(rb.getString("alert.confirmDeletion.title"));
             confirmation.setHeaderText(null);
-            confirmation.setContentText(rb.getString("alert.confirmDeletion.content") + selectedPlanner.getTitle() + "'?");
+            String lang = currentLocale.getLanguage();
+            String title = selectedPlanner.getTranslations().containsKey(lang)
+                    ? selectedPlanner.getTranslations().get(lang).getTitle()
+                    : "[No title]";
+            confirmation.setContentText(rb.getString("alert.confirmDeletion.content") + title + "'?");
 
             confirmation.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
