@@ -25,7 +25,7 @@ public class SelectPlannerController {
     @FXML
     private ListView<StudyPlan> plannerListView;
     @FXML
-    private Button languagePLButton, languageENButton;
+    private Button languagePLButton, languageENButton, languageZHButton;
     @FXML
     private Button selectButton, deleteButton, backButton;
     @FXML
@@ -51,6 +51,7 @@ public class SelectPlannerController {
         titleLabel.setText(rb.getString("selectPlannerTitle"));
         languagePLButton.setText(rb.getString("language.PL"));
         languageENButton.setText(rb.getString("language.EN"));
+        languageZHButton.setText(rb.getString("language.ZH"));
         selectButton.setText(rb.getString("button.select"));
         deleteButton.setText(rb.getString("button.delete"));
         backButton.setText(rb.getString("button.back"));
@@ -165,6 +166,11 @@ public class SelectPlannerController {
     @FXML
     public void handleChangeLanguageEN() {
         changeLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    private void handleChangeLanguageZH(ActionEvent event) {
+        changeLanguage(new Locale("zh", "CN"));
     }
 
     private void changeLanguage(Locale locale) {

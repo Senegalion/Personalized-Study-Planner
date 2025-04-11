@@ -18,6 +18,9 @@ public class DashboardController {
     @FXML
     public Button languageENButton;
     @FXML
+    public Button languageZHButton;
+
+    @FXML
     private Label titleLabel;
 
     @FXML
@@ -71,6 +74,11 @@ public class DashboardController {
     @FXML
     public void handleChangeLanguageEN(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    public void handleChangeLanguageZH(ActionEvent event) {
+        setLanguage(new Locale("zh", "CN"));
     }
 
     private void changeScene(ActionEvent event, String fxmlPath) throws Exception {

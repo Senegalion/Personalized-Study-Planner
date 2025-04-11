@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class CreateStudyPlanController {
     @FXML
-    private Button languagePLButton, languageENButton, createPlannerButton, cancelButton;
+    private Button languagePLButton, languageENButton, languageZHButton, createPlannerButton, cancelButton;
 
     @FXML
     private Label titleLabel;
@@ -69,6 +69,11 @@ public class CreateStudyPlanController {
     @FXML
     private void handleChangeLanguageEN(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    public void handleChangeLanguageZH(ActionEvent actionEvent) {
+        setLanguage(new Locale("zh", "CN"));
     }
 
     @FXML
