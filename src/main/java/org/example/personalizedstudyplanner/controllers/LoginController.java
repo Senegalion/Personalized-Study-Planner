@@ -109,10 +109,10 @@ public class LoginController {
 
     public void changeLanguage(ActionEvent actionEvent) {
         String buttonText = ((Button) actionEvent.getSource()).getText();
-        if (buttonText.equals("EN")) {
-            setLanguage(new Locale("en", "US"));
-        } else if (buttonText.equals("PL")) {
-            setLanguage(new Locale("pl", "PL"));
+        switch (buttonText) {
+            case "EN" -> setLanguage(new Locale("en", "US"));
+            case "PL" -> setLanguage(new Locale("pl", "PL"));
+            case "ZH" -> setLanguage(new Locale("zh", "CN"));
         }
     }
 }

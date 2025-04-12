@@ -18,10 +18,22 @@ import java.util.ResourceBundle;
 public class RegistrationController {
 
     @FXML
-    private TextField nameField;
+    private TextField nameFieldEN;
 
     @FXML
-    private TextField surnameField;
+    private TextField nameFieldPL;
+
+    @FXML
+    private TextField nameFieldZH;
+
+    @FXML
+    private TextField surnameFieldEN;
+
+    @FXML
+    private TextField surnameFieldPL;
+
+    @FXML
+    private TextField surnameFieldZH;
 
     @FXML
     private TextField peselField;
@@ -59,16 +71,15 @@ public class RegistrationController {
     private ResourceBundle rb;
 
     public void initialize() {
-        setLanguage(Locale.getDefault());  // Domyślny język to systemowy
+        setLanguage(Locale.getDefault());
     }
 
     private void setLanguage(Locale locale) {
-        rb = ResourceBundle.getBundle("messages", locale);  // Ładowanie odpowiednich zasobów
+        rb = ResourceBundle.getBundle("messages", locale);
         updateUI();
     }
 
     private void updateUI() {
-        // Ustawianie tekstów dla elementów interfejsu
         titleLabel.setText(rb.getString("register.title"));
         nameLabel.setText(rb.getString("register.name"));
         surnameLabel.setText(rb.getString("register.surname"));
@@ -79,9 +90,14 @@ public class RegistrationController {
         registerButton.setText(rb.getString("button.register"));
         loginButton.setText(rb.getString("button.backToLogin"));
 
-        // Ustawienie prompt text dla TextField
-        nameField.setPromptText(rb.getString("register.name"));
-        surnameField.setPromptText(rb.getString("register.surname"));
+        nameFieldEN.setPromptText(rb.getString("register.name") + " (EN)");
+        nameFieldPL.setPromptText(rb.getString("register.name") + " (PL)");
+        nameFieldZH.setPromptText(rb.getString("register.name") + " (ZH)");
+
+        surnameFieldEN.setPromptText(rb.getString("register.surname") + " (EN)");
+        surnameFieldPL.setPromptText(rb.getString("register.surname") + " (PL)");
+        surnameFieldZH.setPromptText(rb.getString("register.surname") + " (ZH)");
+
         peselField.setPromptText(rb.getString("register.pesel"));
         emailField.setPromptText(rb.getString("register.email"));
         passwordField.setPromptText(rb.getString("register.password"));
@@ -89,35 +105,72 @@ public class RegistrationController {
 
     @FXML
     public void handleRegister(ActionEvent event) {
-        String name = nameField.getText();
-        String surname = surnameField.getText();
         String pesel = peselField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        if (name.isEmpty() || surname.isEmpty() || pesel.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        String nameEN = nameFieldEN.getText();
+        String namePL = nameFieldPL.getText();
+        String nameZH = nameFieldZH.getText();
+
+        String surnameEN = surnameFieldEN.getText();
+        String surnamePL = surnameFieldPL.getText();
+        String surnameZH = surnameFieldZH.getText();
+
+        if (pesel.isEmpty() || email.isEmpty() || password.isEmpty() ||
+                nameEN.isEmpty() || namePL.isEmpty() || nameZH.isEmpty() ||
+                surnameEN.isEmpty() || surnamePL.isEmpty() || surnameZH.isEmpty()) {
             showAlert(rb.getString("error"), rb.getString("register.emptyFields"));
             return;
         }
 
-        String sql = "INSERT INTO student (name, surname, pesel, email, password) VALUES (?, ?, ?, ?, ?)";
+        String studentSql = "INSERT INTO student (pesel, email, password) VALUES (?, ?, ?) RETURNING student_id";
+        String translationSql = "INSERT INTO student_translation (student_id, language_code, name, surname) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseUtil.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseUtil.connect()) {
+            assert conn != null;
+            conn.setAutoCommit(false);
 
-            stmt.setString(1, name);
-            stmt.setString(2, surname);
-            stmt.setString(3, pesel);
-            stmt.setString(4, email);
-            stmt.setString(5, password);
+            int studentId;
+            try (PreparedStatement stmt = conn.prepareStatement(studentSql)) {
+                stmt.setString(1, pesel);
+                stmt.setString(2, email);
+                stmt.setString(3, password);
 
-            int rowsInserted = stmt.executeUpdate();
-            if (rowsInserted > 0) {
-                showAlert(rb.getString("success"), rb.getString("register.success"));
-            } else {
-                showAlert(rb.getString("error"), rb.getString("register.failure"));
+                var rs = stmt.executeQuery();
+                if (rs.next()) {
+                    studentId = rs.getInt("student_id");
+                } else {
+                    conn.rollback();
+                    showAlert(rb.getString("error"), rb.getString("register.failure"));
+                    return;
+                }
             }
 
+            try (PreparedStatement stmt = conn.prepareStatement(translationSql)) {
+                stmt.setInt(1, studentId);
+                stmt.setString(2, "en");
+                stmt.setString(3, nameEN);
+                stmt.setString(4, surnameEN);
+                stmt.addBatch();
+
+                stmt.setInt(1, studentId);
+                stmt.setString(2, "pl");
+                stmt.setString(3, namePL);
+                stmt.setString(4, surnamePL);
+                stmt.addBatch();
+
+                stmt.setInt(1, studentId);
+                stmt.setString(2, "zh");
+                stmt.setString(3, nameZH);
+                stmt.setString(4, surnameZH);
+                stmt.addBatch();
+
+                stmt.executeBatch();
+            }
+
+            conn.commit();
+            showAlert(rb.getString("success"), rb.getString("register.success"));
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(rb.getString("error"), rb.getString("register.databaseError"));
@@ -142,10 +195,10 @@ public class RegistrationController {
 
     public void changeLanguage(ActionEvent actionEvent) {
         String buttonText = ((Button) actionEvent.getSource()).getText();
-        if (buttonText.equals("EN")) {
-            setLanguage(new Locale("en", "US"));
-        } else if (buttonText.equals("PL")) {
-            setLanguage(new Locale("pl", "PL"));
+        switch (buttonText) {
+            case "EN" -> setLanguage(new Locale("en", "US"));
+            case "PL" -> setLanguage(new Locale("pl", "PL"));
+            case "ZH" -> setLanguage(new Locale("zh", "CN"));
         }
     }
 }

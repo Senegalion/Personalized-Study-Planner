@@ -23,7 +23,9 @@
             <Font name="Arial" size="18.0"/>
         </font>
     </Label>
-    <TextField fx:id="nameField" layoutX="300.0" layoutY="110.0" prefWidth="200" styleClass="text-field"/>
+    <TextField fx:id="nameFieldEN" layoutX="300" layoutY="110" promptText="Name (EN)" />
+    <TextField fx:id="nameFieldPL" layoutX="300" layoutY="140" promptText="Imię (PL)" />
+    <TextField fx:id="nameFieldZH" layoutX="300" layoutY="170" promptText="名字 (ZH)" />
 
     <!-- Etykieta Surname -->
     <Label layoutX="300.0" layoutY="170.0" fx:id="surnameLabel">
@@ -31,7 +33,9 @@
             <Font name="Arial" size="18.0"/>
         </font>
     </Label>
-    <TextField fx:id="surnameField" layoutX="300.0" layoutY="200.0" prefWidth="200" styleClass="text-field"/>
+    <TextField fx:id="surnameFieldEN" layoutX="300" layoutY="200" promptText="Surname (EN)" />
+    <TextField fx:id="surnameFieldPL" layoutX="300" layoutY="230" promptText="Nazwisko (PL)" />
+    <TextField fx:id="surnameFieldZH" layoutX="300" layoutY="260" promptText="姓氏 (ZH)" />
 
     <!-- Etykieta PESEL -->
     <Label layoutX="300.0" layoutY="260.0" fx:id="peselLabel">
@@ -66,5 +70,7 @@
     <!-- Przycisk do zmiany języka -->
     <Button text="EN" onAction="#changeLanguage" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
     <Button text="PL" onAction="#changeLanguage" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="20.0"/>
+    <Button text="ZH" onAction="#changeLanguage" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="20.0"/>
+
 
 </AnchorPane>
