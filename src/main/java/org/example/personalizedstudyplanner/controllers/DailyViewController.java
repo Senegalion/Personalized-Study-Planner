@@ -23,6 +23,12 @@ import java.util.ResourceBundle;
 
 public class DailyViewController {
     @FXML
+    public Button languagePolishButton;
+    @FXML
+    public Button languageEnglishButton;
+    @FXML
+    public Button languageChineseButton;
+    @FXML
     private Label dateLabel;
     @FXML
     private ListView<String> eventsListView;
@@ -65,9 +71,11 @@ public class DailyViewController {
         List<Exam> exams = studyEventService.getExamsForDate(selectedDate);
         List<ClassSchedule> classes = studyEventService.getClassesForDate(selectedDate);
 
-        for (Assignment a : assignments) eventsListView.getItems().add("📌 " + rb.getString("assignment") + ": " + a.getTitle());
+        for (Assignment a : assignments)
+            eventsListView.getItems().add("📌 " + rb.getString("assignment") + ": " + a.getTitle());
         for (Exam e : exams) eventsListView.getItems().add("📝 " + rb.getString("exam") + ": " + e.getSubject());
-        for (ClassSchedule c : classes) eventsListView.getItems().add("📚 " + rb.getString("class") + ": " + c.getClassName());
+        for (ClassSchedule c : classes)
+            eventsListView.getItems().add("📚 " + rb.getString("class") + ": " + c.getClassName());
 
         if (eventsListView.getItems().isEmpty()) {
             eventsListView.getItems().add(rb.getString("dailyView.noEvents"));
@@ -123,6 +131,12 @@ public class DailyViewController {
     @FXML
     protected void handleChangeLanguageToEnglish(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
+        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        loadEvents();
+    }
+
+    public void handleChangeLanguageToChinese(ActionEvent actionEvent) {
+        setLanguage(new Locale("zh", "CN"));
         dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
         loadEvents();
     }

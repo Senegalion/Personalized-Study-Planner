@@ -1,13 +1,16 @@
 package org.example.personalizedstudyplanner.repositories_implementations;
 
 import org.example.personalizedstudyplanner.models.StudyPlan;
+import org.example.personalizedstudyplanner.models.StudyPlanTranslation;
 import org.example.personalizedstudyplanner.repositories.StudyPlanRepository;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StudyPlanRepositoryImplementation implements StudyPlanRepository {
     private Connection connection;
@@ -27,33 +30,62 @@ public class StudyPlanRepositoryImplementation implements StudyPlanRepository {
             while (resultSet.next()) {
                 int studyPlanId = resultSet.getInt("study_plan_id");
                 int studentId = resultSet.getInt("student_id");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
                 Timestamp timestamp = resultSet.getTimestamp("creation_date");
                 OffsetDateTime creationDate = timestamp.toInstant().atOffset(ZoneOffset.UTC);
 
-                studyPlans.add(new StudyPlan(studyPlanId, studentId, title, description, creationDate));
+                StudyPlan studyPlan = new StudyPlan(studyPlanId, studentId, creationDate);
+                studyPlan.setTranslations(fetchTranslationsForPlan(studyPlanId));
+                studyPlans.add(studyPlan);
             }
         }
         return studyPlans;
     }
 
+    private Map<String, StudyPlanTranslation> fetchTranslationsForPlan(int studyPlanId) throws SQLException {
+        Map<String, StudyPlanTranslation> translations = new HashMap<>();
+        String query = "SELECT language_code, title, description FROM study_plan_translation WHERE study_plan_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, studyPlanId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String langCode = rs.getString("language_code");
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+
+                StudyPlanTranslation translation = new StudyPlanTranslation(studyPlanId, langCode, title, description);
+                translations.put(langCode, translation);
+            }
+        }
+        return translations;
+    }
+
     @Override
     public void save(StudyPlan studyPlan) throws SQLException {
-        String query = "INSERT INTO study_plan (student_id, title, description, creation_date) VALUES (?, ?, ?, ?)";
-        System.out.println(studyPlan.getStudentId());
-        System.out.println(studyPlan.getTitle());
-        System.out.println(studyPlan.getDescription());
-        System.out.println(studyPlan.getCreationDate());
+        String insertPlanQuery = "INSERT INTO study_plan (student_id, creation_date) VALUES (?, ?) RETURNING study_plan_id";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, studyPlan.getStudentId());
-            preparedStatement.setString(2, studyPlan.getTitle());
-            preparedStatement.setString(3, studyPlan.getDescription());
-            studyPlan.setCreationDate(OffsetDateTime.now(ZoneOffset.UTC));
-            System.out.println(studyPlan.getCreationDate());
-            preparedStatement.setObject(4, studyPlan.getCreationDate());
-            preparedStatement.executeUpdate();
+        try (PreparedStatement insertPlanStmt = connection.prepareStatement(insertPlanQuery)) {
+            insertPlanStmt.setInt(1, studyPlan.getStudentId());
+            insertPlanStmt.setObject(2, studyPlan.getCreationDate());
+            ResultSet rs = insertPlanStmt.executeQuery();
+            if (rs.next()) {
+                int studyPlanId = rs.getInt(1);
+                studyPlan.setStudyPlanId(studyPlanId);
+
+                // insert translations
+                String insertTranslationQuery = "INSERT INTO study_plan_translation (study_plan_id, language_code, title, description) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement insertTranslationStmt = connection.prepareStatement(insertTranslationQuery)) {
+                    for (StudyPlanTranslation translation : studyPlan.getTranslations().values()) {
+                        insertTranslationStmt.setInt(1, studyPlanId);
+                        insertTranslationStmt.setString(2, translation.getLanguageCode());
+                        insertTranslationStmt.setString(3, translation.getTitle());
+                        insertTranslationStmt.setString(4, translation.getDescription());
+                        insertTranslationStmt.addBatch();
+                    }
+                    insertTranslationStmt.executeBatch();
+                }
+            }
         }
     }
 

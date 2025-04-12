@@ -25,7 +25,7 @@ public class SelectPlannerController {
     @FXML
     private ListView<StudyPlan> plannerListView;
     @FXML
-    private Button languagePLButton, languageENButton;
+    private Button languagePLButton, languageENButton, languageZHButton;
     @FXML
     private Button selectButton, deleteButton, backButton;
     @FXML
@@ -51,6 +51,7 @@ public class SelectPlannerController {
         titleLabel.setText(rb.getString("selectPlannerTitle"));
         languagePLButton.setText(rb.getString("language.PL"));
         languageENButton.setText(rb.getString("language.EN"));
+        languageZHButton.setText(rb.getString("language.ZH"));
         selectButton.setText(rb.getString("button.select"));
         deleteButton.setText(rb.getString("button.delete"));
         backButton.setText(rb.getString("button.back"));
@@ -69,7 +70,18 @@ public class SelectPlannerController {
             @Override
             protected void updateItem(StudyPlan item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getTitle() + " - " + item.getDescription());
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    String lang = currentLocale.getLanguage();
+                    String title = item.getTranslations().containsKey(lang)
+                            ? item.getTranslations().get(lang).getTitle()
+                            : "[No title]";
+                    String desc = item.getTranslations().containsKey(lang)
+                            ? item.getTranslations().get(lang).getDescription()
+                            : "[No description]";
+                    setText(title + " - " + desc);
+                }
             }
         });
     }
@@ -116,7 +128,11 @@ public class SelectPlannerController {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle(rb.getString("alert.confirmDeletion.title"));
             confirmation.setHeaderText(null);
-            confirmation.setContentText(rb.getString("alert.confirmDeletion.content") + selectedPlanner.getTitle() + "'?");
+            String lang = currentLocale.getLanguage();
+            String title = selectedPlanner.getTranslations().containsKey(lang)
+                    ? selectedPlanner.getTranslations().get(lang).getTitle()
+                    : "[No title]";
+            confirmation.setContentText(rb.getString("alert.confirmDeletion.content") + title + "'?");
 
             confirmation.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -150,6 +166,11 @@ public class SelectPlannerController {
     @FXML
     public void handleChangeLanguageEN() {
         changeLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    private void handleChangeLanguageZH(ActionEvent event) {
+        changeLanguage(new Locale("zh", "CN"));
     }
 
     private void changeLanguage(Locale locale) {

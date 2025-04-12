@@ -34,6 +34,8 @@ public class ProgressController {
     private Button languagePolishButton;
     @FXML
     private Button languageEnglishButton;
+    @FXML
+    public Button languageChineseButton;
 
     private final StudyEventService studyEventService = new StudyEventService();
     private LocalDate selectedDate;
@@ -70,13 +72,19 @@ public class ProgressController {
     }
 
     protected void loadAssignmentProgress() {
+        if (currentLocale == null) {
+            currentLocale = Locale.getDefault();
+        }
         assignmentProgressContainer.getChildren().clear();
         List<Assignment> assignments = studyEventService.getAssignmentsForDate(selectedDate);
 
         for (Assignment assignment : assignments) {
             double progress = assignment.getStatus().getProgressValue();
             ProgressBar progressBar = new ProgressBar(progress);
-            Label label = new Label(assignment.getTitle() + " - " + (int) (progress * 100) + "% Completed");
+
+            String statusLabel = assignment.getStatus().getLabel(currentLocale);
+
+            Label label = new Label(assignment.getTitle() + " - " + (int) (progress * 100) + "% " + statusLabel);
 
             ComboBox<AssignmentStatus> statusComboBox = new ComboBox<>();
             statusComboBox.getItems().setAll(AssignmentStatus.values());
@@ -95,6 +103,9 @@ public class ProgressController {
     }
 
     protected void loadExamProgress() {
+        if (currentLocale == null) {
+            currentLocale = Locale.getDefault();
+        }
         examProgressContainer.getChildren().clear();
         List<Exam> exams = studyEventService.getExamsForDate(selectedDate);
 
@@ -148,6 +159,11 @@ public class ProgressController {
     @FXML
     protected void handleChangeLanguageToEnglish(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    public void handleChangeLanguageToChinese(ActionEvent actionEvent) {
+        setLanguage(new Locale("zh", "CN"));
     }
 }
 

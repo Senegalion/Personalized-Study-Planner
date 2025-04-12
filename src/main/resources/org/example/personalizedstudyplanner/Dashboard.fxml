@@ -9,6 +9,7 @@
     <HBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">
         <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="secondary-button" text="PL"/>
         <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="secondary-button" text="EN"/>
+        <Button fx:id="languageZHButton" onAction="#handleChangeLanguageZH" styleClass="secondary-button" text="ZH"/>
     </HBox>
 
     <StackPane prefHeight="1000" prefWidth="1000" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="0"

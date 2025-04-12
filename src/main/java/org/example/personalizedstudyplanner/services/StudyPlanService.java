@@ -31,10 +31,18 @@ public class StudyPlanService {
         return studyPlans;
     }
 
-    public void createStudyPlan(String title, String description) throws SQLException {
+    public void createStudyPlanWithTranslations(String titleEN, String descEN, String titlePL, String descPL, String titleZH, String descZH) throws SQLException {
         int currentUserId = UserContext.getCurrentUserId();
         OffsetDateTime creationDate = OffsetDateTime.now(ZoneOffset.UTC);
-        StudyPlan studyPlan = new StudyPlan(0, currentUserId, title, description, creationDate);
+
+        StudyPlan studyPlan = new StudyPlan(0, currentUserId, creationDate);
+        studyPlan.addTranslation("en", titleEN, descEN);
+        studyPlan.addTranslation("pl", titlePL, descPL);
+
+        if (!titleZH.isEmpty() && !descZH.isEmpty()) {
+            studyPlan.addTranslation("zh", titleZH, descZH);
+        }
+
         studyPlanRepository.save(studyPlan);
     }
 

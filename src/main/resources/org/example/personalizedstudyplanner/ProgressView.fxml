@@ -12,6 +12,8 @@
                 text="PL"/>
         <Button fx:id="languageEnglishButton" onAction="#handleChangeLanguageToEnglish" styleClass="primary-button"
                 text="EN"/>
+        <Button fx:id="languageChineseButton" onAction="#handleChangeLanguageToChinese" styleClass="primary-button"
+                text="ZH"/>
     </HBox>
 
     <Label fx:id="titleLabel" text="📊 Study Progress" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>

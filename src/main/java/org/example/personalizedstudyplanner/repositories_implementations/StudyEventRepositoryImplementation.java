@@ -33,7 +33,8 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        AssignmentStatus.valueOf(rs.getString("status"))
+                        AssignmentStatus.valueOf(rs.getString("status_en")),
+                        AssignmentStatus.valueOf(rs.getString("status_pl"))
                 ));
             }
         } catch (SQLException e) {
@@ -101,14 +102,15 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
     @Override
     public void addAssignment(Assignment assignment) {
-        String sql = "INSERT INTO assignment (study_plan_id, title, description, due_date, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO assignment (study_plan_id, title, description, due_date, status_en, status_pl) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, assignment.getStudyPlanId());
             stmt.setString(2, assignment.getTitle());
             stmt.setString(3, assignment.getDescription());
             stmt.setTimestamp(4, Timestamp.from(assignment.getDueDate().toInstant()));
-            stmt.setString(5, assignment.getStatus().name());
+            stmt.setString(5, assignment.getStatusEn().name());
+            stmt.setString(6, assignment.getStatusPl().name());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,7 +178,8 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        AssignmentStatus.valueOf(rs.getString("status"))
+                        AssignmentStatus.valueOf(rs.getString("status_en")),
+                        AssignmentStatus.valueOf(rs.getString("status_pl"))
                 ));
             }
             return assignments;
@@ -257,7 +260,8 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        AssignmentStatus.valueOf(rs.getString("status"))
+                        AssignmentStatus.valueOf(rs.getString("status_en")),
+                        AssignmentStatus.valueOf(rs.getString("status_pl"))
                 ));
             }
         } catch (SQLException e) {
@@ -295,12 +299,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
     @Override
     public void updateAssignmentStatus(Assignment assignment) {
-        String updateQuery = "UPDATE assignment SET status = ? WHERE assignment_id = ? AND study_plan_id = ?";
+        String updateQuery = "UPDATE assignment SET status_en = ?, status_pl = ? WHERE assignment_id = ? AND study_plan_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
-            stmt.setString(1, assignment.getStatus().name());
-            stmt.setInt(2, assignment.getAssignmentId());
-            stmt.setInt(3, assignment.getStudyPlanId());
+            stmt.setString(1, assignment.getStatusEn().name());
+            stmt.setString(2, assignment.getStatusPl().name());
+            stmt.setInt(3, assignment.getAssignmentId());
+            stmt.setInt(4, assignment.getStudyPlanId());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {

@@ -38,5 +38,6 @@
 
     <Button text="EN" onAction="#changeLanguage" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0"/>
     <Button text="PL" onAction="#changeLanguage" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="20.0"/>
+    <Button text="ZH" onAction="#changeLanguage" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="20.0"/>
 
 </AnchorPane>

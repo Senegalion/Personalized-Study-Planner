@@ -38,6 +38,10 @@ public class CalendarController {
 
     @FXML
     private Button languageENButton;
+
+    @FXML
+    private Button languageZHButton;
+
     @FXML
     private VBox mainContainer;
     private ResourceBundle rb;
@@ -76,6 +80,11 @@ public class CalendarController {
     @FXML
     public void handleChangeLanguageEN(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    public void handleChangeLanguageZH(ActionEvent actionEvent) {
+        setLanguage(new Locale("zh", "CN"));
     }
 
     protected void generateCalendar() throws SQLException {
@@ -268,7 +277,7 @@ public class CalendarController {
 
                 switch (eventType) {
                     case "Assignment":
-                        studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING));
+                        studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING, AssignmentStatus.PENDING));
                         break;
                     case "Exam":
                         studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0, AssignmentStatus.PENDING), address);
@@ -343,7 +352,6 @@ public class CalendarController {
             e.printStackTrace();
         }
     }
-
 
     private void showReminderAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

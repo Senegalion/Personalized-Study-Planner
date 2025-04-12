@@ -14,6 +14,8 @@
                 text="PL"/>
         <Button fx:id="languageEnglishButton" onAction="#handleChangeLanguageToEnglish" styleClass="primary-button"
                 text="EN"/>
+        <Button fx:id="languageChineseButton" onAction="#handleChangeLanguageToChinese" styleClass="primary-button"
+                text="ZH"/>
     </HBox>
 
     <Label fx:id="dateLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="📆 Day View"/>
@@ -23,7 +25,8 @@
 
     <HBox alignment="CENTER" spacing="10">
         <Button fx:id="addEventButton" onAction="#handleAddEvent" styleClass="primary-button" text="➕ Add Event"/>
-        <Button fx:id="viewProgressButton" onAction="#handleViewProgress" styleClass="primary-button" text="📊 View Progress"/>
+        <Button fx:id="viewProgressButton" onAction="#handleViewProgress" styleClass="primary-button"
+                text="📊 View Progress"/>
         <Button fx:id="goBackButton" onAction="#handleBack" styleClass="secondary-button" text="🔙 Go Back"/>
     </HBox>
 </VBox>
