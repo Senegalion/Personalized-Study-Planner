@@ -34,6 +34,8 @@ public class ProgressController {
     private Button languagePolishButton;
     @FXML
     private Button languageEnglishButton;
+    @FXML
+    public Button languageChineseButton;
 
     private final StudyEventService studyEventService = new StudyEventService();
     private LocalDate selectedDate;
@@ -157,6 +159,11 @@ public class ProgressController {
     @FXML
     protected void handleChangeLanguageToEnglish(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
+    }
+
+    @FXML
+    public void handleChangeLanguageToChinese(ActionEvent actionEvent) {
+        setLanguage(new Locale("zh", "CN"));
     }
 }
 

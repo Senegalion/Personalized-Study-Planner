@@ -15,6 +15,7 @@
     <HBox spacing="10" style="-fx-padding: 10;">
         <Button fx:id="languagePLButton" onAction="#handleChangeLanguagePL" styleClass="secondary-button" text="PL"/>
         <Button fx:id="languageENButton" onAction="#handleChangeLanguageEN" styleClass="secondary-button" text="EN"/>
+        <Button fx:id="languageZHButton" onAction="#handleChangeLanguageZH" styleClass="secondary-button" text="ZH"/>
     </HBox>
 
     <Label fx:id="titleLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="📅 Study Plan Calendar"/>
