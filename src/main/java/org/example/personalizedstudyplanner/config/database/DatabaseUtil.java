@@ -17,7 +17,6 @@ public class DatabaseUtil {
         }
     }
 
-    //    For testing
     public static void setUrlForTesting(String url) {
         URL = url;
     }
