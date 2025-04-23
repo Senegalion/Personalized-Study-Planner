@@ -11,7 +11,7 @@ class PersonalizedStudyPlannerApplicationTest {
         assertDoesNotThrow(() -> {
             new Thread(() -> {
                 PersonalizedStudyPlannerApplication.main(new String[]{});
-                Platform.runLater(() -> Platform.exit());
+                Platform.runLater(Platform::exit);
             }).start();
         });
     }

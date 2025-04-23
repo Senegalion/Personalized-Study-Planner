@@ -8,9 +8,9 @@ import java.sql.*;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StudyPlanRepositoryImplementation implements StudyPlanRepository {
     private Connection connection;
@@ -42,7 +42,7 @@ public class StudyPlanRepositoryImplementation implements StudyPlanRepository {
     }
 
     private Map<String, StudyPlanTranslation> fetchTranslationsForPlan(int studyPlanId) throws SQLException {
-        Map<String, StudyPlanTranslation> translations = new HashMap<>();
+        Map<String, StudyPlanTranslation> translations = new ConcurrentHashMap<>();
         String query = "SELECT language_code, title, description FROM study_plan_translation WHERE study_plan_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
