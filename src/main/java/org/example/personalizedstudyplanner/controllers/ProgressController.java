@@ -50,7 +50,7 @@ public class ProgressController {
         });
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDate date, int studyPlanId) {
         this.selectedDate = date;
         loadAssignmentProgress();
         loadExamProgress();
