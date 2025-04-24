@@ -39,7 +39,6 @@ public class ProgressController {
 
     private final StudyEventService studyEventService = new StudyEventService();
     private LocalDate selectedDate;
-    private int studyPlanId;
     private Locale currentLocale;
     private ResourceBundle rb;
 
@@ -51,9 +50,8 @@ public class ProgressController {
         });
     }
 
-    public void setDate(LocalDate date, int studyPlanId) {
+    public void setDate(LocalDate date) {
         this.selectedDate = date;
-        this.studyPlanId = studyPlanId;
         loadAssignmentProgress();
         loadExamProgress();
     }

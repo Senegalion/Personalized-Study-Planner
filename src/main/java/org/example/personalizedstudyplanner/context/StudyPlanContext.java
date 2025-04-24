@@ -3,6 +3,9 @@ package org.example.personalizedstudyplanner.context;
 public class StudyPlanContext {
     private static int currentStudyPlanId = -1;
 
+    private StudyPlanContext() {
+    }
+
     public static void setCurrentStudyPlanId(int studyPlanId) {
         currentStudyPlanId = studyPlanId;
     }

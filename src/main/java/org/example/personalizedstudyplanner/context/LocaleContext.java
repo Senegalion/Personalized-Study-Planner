@@ -5,6 +5,9 @@ import java.util.Locale;
 public class LocaleContext {
     private static Locale currentLocale = Locale.getDefault();
 
+    private LocaleContext() {
+    }
+
     public static Locale getCurrentLocale() {
         return currentLocale;
     }

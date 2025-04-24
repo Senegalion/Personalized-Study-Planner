@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DailyViewController {
+    public static final String DAILY_VIEW_TITLE = "dailyView.title";
     @FXML
     public Button languagePolishButton;
     @FXML
@@ -41,15 +42,13 @@ public class DailyViewController {
     private final StudyEventService studyEventService = new StudyEventService();
     private LocalDate selectedDate;
     private int studyPlanId;
-    private Locale currentLocale;
     private ResourceBundle rb;
 
     public void setDate(LocalDate date, int studyPlanId, Locale locale) {
         this.selectedDate = date;
         this.studyPlanId = studyPlanId;
-        this.currentLocale = locale;
         setLanguage(locale);
-        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        dateLabel.setText(rb.getString(DAILY_VIEW_TITLE) + " " + selectedDate);
         loadEvents();
     }
 
@@ -59,7 +58,7 @@ public class DailyViewController {
     }
 
     private void updateUI() {
-        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        dateLabel.setText(rb.getString(DAILY_VIEW_TITLE) + " " + selectedDate);
         addEventButton.setText(rb.getString("dailyView.addEvent"));
         viewProgressButton.setText(rb.getString("viewProgress"));
         goBackButton.setText(rb.getString("goBack"));
@@ -124,20 +123,21 @@ public class DailyViewController {
     @FXML
     protected void handleChangeLanguageToPolish(ActionEvent event) {
         setLanguage(new Locale("pl", "PL"));
-        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        dateLabel.setText(rb.getString(DAILY_VIEW_TITLE) + " " + selectedDate);
         loadEvents();
     }
 
     @FXML
     protected void handleChangeLanguageToEnglish(ActionEvent event) {
         setLanguage(new Locale("en", "US"));
-        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        dateLabel.setText(rb.getString(DAILY_VIEW_TITLE) + " " + selectedDate);
         loadEvents();
     }
 
+    @FXML
     public void handleChangeLanguageToChinese(ActionEvent actionEvent) {
         setLanguage(new Locale("zh", "CN"));
-        dateLabel.setText(rb.getString("dailyView.title") + " " + selectedDate);
+        dateLabel.setText(rb.getString(DAILY_VIEW_TITLE) + " " + selectedDate);
         loadEvents();
     }
 }
