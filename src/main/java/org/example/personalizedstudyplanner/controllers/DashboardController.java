@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -52,17 +53,17 @@ public class DashboardController {
     }
 
     @FXML
-    public void handleCreatePlanner(ActionEvent event) throws Exception {
+    public void handleCreatePlanner(ActionEvent event) throws IOException {
         changeScene(event, "/org/example/personalizedstudyplanner/CreatePlanner.fxml");
     }
 
     @FXML
-    public void handleSelectPlanner(ActionEvent event) throws Exception {
+    public void handleSelectPlanner(ActionEvent event) throws IOException {
         changeScene(event, "/org/example/personalizedstudyplanner/SelectPlanner.fxml");
     }
 
     @FXML
-    public void handleLogout(ActionEvent event) throws Exception {
+    public void handleLogout(ActionEvent event) throws IOException {
         changeScene(event, "/org/example/personalizedstudyplanner/Login.fxml");
     }
 
@@ -81,7 +82,7 @@ public class DashboardController {
         setLanguage(new Locale("zh", "CN"));
     }
 
-    private void changeScene(ActionEvent event, String fxmlPath) throws Exception {
+    private void changeScene(ActionEvent event, String fxmlPath) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath), rb);
         Parent root = loader.load();

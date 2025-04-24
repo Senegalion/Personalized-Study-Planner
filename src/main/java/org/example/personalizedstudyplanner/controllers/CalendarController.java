@@ -13,12 +13,16 @@ import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.services.StudyEventService;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
 
 public class CalendarController {
+    public static final String ASSIGNMENT = "Assignment";
+    public static final String EXAM = "Exam";
+    public static final String CLASS_SCHEDULE = "Class Schedule";
     @FXML
     protected GridPane calendarGrid;
     @FXML
@@ -52,12 +56,8 @@ public class CalendarController {
     public void initialize() {
         setLanguage(currentLocale);
         Platform.runLater(() -> {
-            try {
-                generateCalendar();
-                checkReminders();
-            } catch (SQLException e) {
-                showErrorAlert("Failed to load calendar.");
-            }
+            generateCalendar();
+            checkReminders();
         });
     }
 
@@ -87,7 +87,7 @@ public class CalendarController {
         setLanguage(new Locale("zh", "CN"));
     }
 
-    protected void generateCalendar() throws SQLException {
+    protected void generateCalendar() {
         if (calendarGrid == null) {
             System.err.println("Error: calendarGrid is null!");
             return;
@@ -167,7 +167,7 @@ public class CalendarController {
         }
     }
 
-    private String getEventsForDay(LocalDate date) throws SQLException {
+    private String getEventsForDay(LocalDate date) {
         List<Assignment> assignments = studyEventService.getAssignmentsForDate(date);
         List<Exam> exams = studyEventService.getExamsForDate(date);
         List<ClassSchedule> classes = studyEventService.getClassesForDate(date);
@@ -186,7 +186,11 @@ public class CalendarController {
         dialog.setHeaderText("Enter details for the " + eventType);
 
         TextField titleField = new TextField();
-        titleField.setPromptText(eventType.equals("Assignment") ? "Title" : eventType.equals("Exam") ? "Subject" : "Class Name");
+        switch (eventType) {
+            case ASSIGNMENT -> titleField.setPromptText("Title");
+            case EXAM -> titleField.setPromptText("Subject");
+            default -> titleField.setPromptText("Class Name");
+        }
 
         TextField descriptionField = new TextField();
         descriptionField.setPromptText("Description");
@@ -219,7 +223,7 @@ public class CalendarController {
         grid.add(new Label("Description:"), 0, 1);
         grid.add(descriptionField, 1, 1);
 
-        if (!eventType.equals("Assignment")) {
+        if (!eventType.equals(ASSIGNMENT)) {
             grid.add(new Label("Country:"), 0, 2);
             grid.add(countryField, 1, 2);
             grid.add(new Label("City:"), 0, 3);
@@ -232,7 +236,7 @@ public class CalendarController {
             grid.add(postalCodeField, 1, 6);
         }
 
-        if (eventType.equals("Class Schedule")) {
+        if (eventType.equals(CLASS_SCHEDULE)) {
             grid.add(new Label("Recurrence:"), 0, 7);
             grid.add(recurrenceChoiceBox, 1, 7);
         }
@@ -247,7 +251,7 @@ public class CalendarController {
                 result.add(titleField.getText());
                 result.add(descriptionField.getText());
 
-                if (!eventType.equals("Assignment")) {
+                if (!eventType.equals(ASSIGNMENT)) {
                     result.add(countryField.getText());
                     result.add(cityField.getText());
                     result.add(streetField.getText());
@@ -255,7 +259,7 @@ public class CalendarController {
                     result.add(postalCodeField.getText());
                 }
 
-                if (eventType.equals("Class Schedule")) {
+                if (eventType.equals(CLASS_SCHEDULE)) {
                     result.add(recurrenceChoiceBox.getValue());
                 }
                 return result;
@@ -268,29 +272,26 @@ public class CalendarController {
             String description = result.get(1);
 
             Address address = null;
-            if (!eventType.equals("Assignment")) {
+            if (!eventType.equals(ASSIGNMENT)) {
                 address = new Address(0, result.get(2), result.get(3), result.get(4), Integer.parseInt(result.get(5)), result.get(6));
             }
 
-            try {
-                OffsetDateTime eventDate = date.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
+            OffsetDateTime eventDate = date.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
 
-                switch (eventType) {
-                    case "Assignment":
-                        studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING, AssignmentStatus.PENDING));
-                        break;
-                    case "Exam":
-                        studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0, AssignmentStatus.PENDING), address);
-                        break;
-                    case "Class Schedule":
-                        studyEventService.addClassSchedule(new ClassSchedule(0, StudyPlanContext.getCurrentStudyPlanId(), "Monday", title, eventDate, eventDate.plusHours(1), 0, result.get(7)), address);
-                        break;
-                }
-                generateCalendar();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showErrorAlert("Failed to save event.");
+            switch (eventType) {
+                case ASSIGNMENT:
+                    studyEventService.addAssignment(new Assignment(0, StudyPlanContext.getCurrentStudyPlanId(), title, description, eventDate, AssignmentStatus.PENDING, AssignmentStatus.PENDING));
+                    break;
+                case EXAM:
+                    studyEventService.addExam(new Exam(0, StudyPlanContext.getCurrentStudyPlanId(), title, eventDate, 0, AssignmentStatus.PENDING), address);
+                    break;
+                case CLASS_SCHEDULE:
+                    studyEventService.addClassSchedule(new ClassSchedule(0, StudyPlanContext.getCurrentStudyPlanId(), "Monday", title, eventDate, eventDate.plusHours(1), 0, result.get(7)), address);
+                    break;
+                default:
+                    break;
             }
+            generateCalendar();
         });
     }
 
@@ -303,7 +304,7 @@ public class CalendarController {
     }
 
     @FXML
-    protected void handleBack(ActionEvent event) throws Exception {
+    protected void handleBack(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/SelectPlanner.fxml")));
         stage.setScene(new Scene(root, 800, 600));
@@ -311,12 +312,7 @@ public class CalendarController {
 
     @FXML
     protected void handleToday(ActionEvent event) {
-        try {
-            generateCalendar();
-        } catch (SQLException e) {
-            showErrorAlert("Failed to refresh calendar.");
-            e.printStackTrace();
-        }
+        generateCalendar();
     }
 
     private void checkReminders() {

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Locale;
@@ -17,6 +18,9 @@ import java.util.ResourceBundle;
 
 public class RegistrationController {
 
+    public static final String REGISTER_NAME = "register.name";
+    public static final String REGISTER_SURNAME = "register.surname";
+    public static final String ERROR = "error";
     @FXML
     private TextField nameFieldEN;
 
@@ -81,8 +85,8 @@ public class RegistrationController {
 
     private void updateUI() {
         titleLabel.setText(rb.getString("register.title"));
-        nameLabel.setText(rb.getString("register.name"));
-        surnameLabel.setText(rb.getString("register.surname"));
+        nameLabel.setText(rb.getString(REGISTER_NAME));
+        surnameLabel.setText(rb.getString(REGISTER_SURNAME));
         peselLabel.setText(rb.getString("register.pesel"));
         emailLabel.setText(rb.getString("register.email"));
         passwordLabel.setText(rb.getString("register.password"));
@@ -90,13 +94,13 @@ public class RegistrationController {
         registerButton.setText(rb.getString("button.register"));
         loginButton.setText(rb.getString("button.backToLogin"));
 
-        nameFieldEN.setPromptText(rb.getString("register.name") + " (EN)");
-        nameFieldPL.setPromptText(rb.getString("register.name") + " (PL)");
-        nameFieldZH.setPromptText(rb.getString("register.name") + " (ZH)");
+        nameFieldEN.setPromptText(rb.getString(REGISTER_NAME) + " (EN)");
+        nameFieldPL.setPromptText(rb.getString(REGISTER_NAME) + " (PL)");
+        nameFieldZH.setPromptText(rb.getString(REGISTER_NAME) + " (ZH)");
 
-        surnameFieldEN.setPromptText(rb.getString("register.surname") + " (EN)");
-        surnameFieldPL.setPromptText(rb.getString("register.surname") + " (PL)");
-        surnameFieldZH.setPromptText(rb.getString("register.surname") + " (ZH)");
+        surnameFieldEN.setPromptText(rb.getString(REGISTER_SURNAME) + " (EN)");
+        surnameFieldPL.setPromptText(rb.getString(REGISTER_SURNAME) + " (PL)");
+        surnameFieldZH.setPromptText(rb.getString(REGISTER_SURNAME) + " (ZH)");
 
         peselField.setPromptText(rb.getString("register.pesel"));
         emailField.setPromptText(rb.getString("register.email"));
@@ -120,7 +124,7 @@ public class RegistrationController {
         if (pesel.isEmpty() || email.isEmpty() || password.isEmpty() ||
                 nameEN.isEmpty() || namePL.isEmpty() || nameZH.isEmpty() ||
                 surnameEN.isEmpty() || surnamePL.isEmpty() || surnameZH.isEmpty()) {
-            showAlert(rb.getString("error"), rb.getString("register.emptyFields"));
+            showAlert(rb.getString(ERROR), rb.getString("register.emptyFields"));
             return;
         }
 
@@ -142,7 +146,7 @@ public class RegistrationController {
                     studentId = rs.getInt("student_id");
                 } else {
                     conn.rollback();
-                    showAlert(rb.getString("error"), rb.getString("register.failure"));
+                    showAlert(rb.getString(ERROR), rb.getString("register.failure"));
                     return;
                 }
             }
@@ -173,7 +177,7 @@ public class RegistrationController {
             showAlert(rb.getString("success"), rb.getString("register.success"));
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(rb.getString("error"), rb.getString("register.databaseError"));
+            showAlert(rb.getString(ERROR), rb.getString("register.databaseError"));
         }
     }
 
@@ -186,7 +190,7 @@ public class RegistrationController {
     }
 
     @FXML
-    public void goToLogin(ActionEvent event) throws Exception {
+    public void goToLogin(ActionEvent event) throws IOException {
         Stage stage = (Stage) emailField.getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Login.fxml")));
         Scene scene = new Scene(root, 800, 600);
@@ -196,9 +200,9 @@ public class RegistrationController {
     public void changeLanguage(ActionEvent actionEvent) {
         String buttonText = ((Button) actionEvent.getSource()).getText();
         switch (buttonText) {
-            case "EN" -> setLanguage(new Locale("en", "US"));
             case "PL" -> setLanguage(new Locale("pl", "PL"));
             case "ZH" -> setLanguage(new Locale("zh", "CN"));
+            default -> setLanguage(new Locale("en", "US"));
         }
     }
 }

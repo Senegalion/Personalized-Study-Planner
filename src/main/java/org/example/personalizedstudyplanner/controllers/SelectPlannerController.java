@@ -25,7 +25,11 @@ public class SelectPlannerController {
     @FXML
     private ListView<StudyPlan> plannerListView;
     @FXML
-    private Button languagePLButton, languageENButton, languageZHButton;
+    private Button languagePLButton;
+    @FXML
+    private Button languageENButton;
+    @FXML
+    private Button languageZHButton;
     @FXML
     private Button selectButton, deleteButton, backButton;
     @FXML

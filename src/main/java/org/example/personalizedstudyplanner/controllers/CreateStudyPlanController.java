@@ -16,8 +16,15 @@ import java.util.ResourceBundle;
 
 public class CreateStudyPlanController {
     @FXML
-    private Button languagePLButton, languageENButton, languageZHButton, createPlannerButton, cancelButton;
-
+    private Button languagePLButton;
+    @FXML
+    private Button languageENButton;
+    @FXML
+    private Button languageZHButton;
+    @FXML
+    private Button createPlannerButton;
+    @FXML
+    private Button cancelButton;
     @FXML
     private Label titleLabel;
 

@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
 import org.example.personalizedstudyplanner.context.UserContext;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController {
+    public static final String ERROR = "error";
     @FXML
     public Button loginButton;
     @FXML
@@ -62,7 +64,7 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (email.isEmpty() || password.isEmpty()) {
-            showAlert(rb.getString("error"), rb.getString("login.emptyFields"));
+            showAlert(rb.getString(ERROR), rb.getString("login.emptyFields"));
             return;
         }
 
@@ -82,17 +84,17 @@ public class LoginController {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Dashboard.fxml")));
                 stage.setScene(new Scene(root, 800, 600));
             } else {
-                showAlert(rb.getString("error"), rb.getString("login.invalidCredentials"));
+                showAlert(rb.getString(ERROR), rb.getString("login.invalidCredentials"));
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(rb.getString("error"), rb.getString("login.databaseError"));
+            showAlert(rb.getString(ERROR), rb.getString("login.databaseError"));
         }
     }
 
     @FXML
-    public void goToRegistration(ActionEvent event) throws Exception {
+    public void goToRegistration(ActionEvent event) throws IOException {
         Stage stage = (Stage) emailField.getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Registration.fxml")));
         Scene scene = new Scene(root, 800, 600);
@@ -110,9 +112,9 @@ public class LoginController {
     public void changeLanguage(ActionEvent actionEvent) {
         String buttonText = ((Button) actionEvent.getSource()).getText();
         switch (buttonText) {
-            case "EN" -> setLanguage(new Locale("en", "US"));
             case "PL" -> setLanguage(new Locale("pl", "PL"));
             case "ZH" -> setLanguage(new Locale("zh", "CN"));
+            default -> setLanguage(new Locale("en", "US"));
         }
     }
 }
