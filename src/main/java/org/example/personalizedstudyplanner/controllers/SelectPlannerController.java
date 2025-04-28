@@ -13,6 +13,8 @@ import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.exceptions.DatabaseException;
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.services.StudyPlanService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,7 +24,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SelectPlannerController {
-
+    Logger logger = LoggerFactory.getLogger(SelectPlannerController.class);
     @FXML
     private ListView<StudyPlan> plannerListView;
     @FXML
@@ -32,7 +34,11 @@ public class SelectPlannerController {
     @FXML
     private Button languageZHButton;
     @FXML
-    private Button selectButton, deleteButton, backButton;
+    private Button selectButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button backButton;
     @FXML
     private Label titleLabel;
     private final StudyPlanService studyPlanService = new StudyPlanService();
@@ -66,7 +72,7 @@ public class SelectPlannerController {
         List<StudyPlan> planners = studyPlanService.getAllStudyPlans();
 
         if (planners.isEmpty()) {
-            showAlert(Alert.AlertType.INFORMATION, rb.getString("alert.noPlannersFound.title"), rb.getString("alert.noPlannersFound.content"));
+            showAlert(rb.getString("alert.noPlannersFound.title"), rb.getString("alert.noPlannersFound.content"));
         }
 
         observablePlanners = FXCollections.observableArrayList(planners);
@@ -119,7 +125,7 @@ public class SelectPlannerController {
     }
 
     @FXML
-    public void goBack(ActionEvent event) throws Exception {
+    public void goBack(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/personalizedstudyplanner/Dashboard.fxml")));
         stage.setScene(new Scene(root, 800, 600));
@@ -145,7 +151,7 @@ public class SelectPlannerController {
                         studyPlanService.deleteStudyPlan(selectedPlanner.getStudyPlanId());
                         observablePlanners.remove(selectedPlanner);
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        logger.error("SQL Exception");
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle(rb.getString("alert.deletionError.title"));
                         error.setHeaderText(null);
@@ -188,8 +194,8 @@ public class SelectPlannerController {
         }
     }
 
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
