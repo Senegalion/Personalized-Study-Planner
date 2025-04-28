@@ -10,8 +10,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.context.StudyPlanContext;
+import org.example.personalizedstudyplanner.exceptions.DatabaseException;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.services.StudyEventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,6 +23,7 @@ import java.time.OffsetDateTime;
 import java.util.*;
 
 public class CalendarController {
+    Logger logger = LoggerFactory.getLogger(CalendarController.class);
     public static final String ASSIGNMENT = "Assignment";
     public static final String EXAM = "Exam";
     public static final String CLASS_SCHEDULE = "Class Schedule";
@@ -49,7 +53,7 @@ public class CalendarController {
     @FXML
     private VBox mainContainer;
     private ResourceBundle rb;
-    private Locale currentLocale = Locale.getDefault();
+    private final Locale currentLocale = Locale.getDefault();
     private final StudyEventService studyEventService = new StudyEventService();
 
     @FXML
@@ -89,7 +93,7 @@ public class CalendarController {
 
     protected void generateCalendar() {
         if (calendarGrid == null) {
-            System.err.println("Error: calendarGrid is null!");
+            logger.error("Error: calendarGrid is null!");
             return;
         }
         calendarGrid.getChildren().clear();
@@ -163,7 +167,7 @@ public class CalendarController {
             stage.show();
         } catch (Exception e) {
             showErrorAlert("Failed to open daily view.");
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 
@@ -345,7 +349,7 @@ public class CalendarController {
                 showReminderAlert(reminderText.toString());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 

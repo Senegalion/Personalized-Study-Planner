@@ -88,7 +88,6 @@ public class LoginController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             showAlert(rb.getString(ERROR), rb.getString("login.databaseError"));
         }
     }

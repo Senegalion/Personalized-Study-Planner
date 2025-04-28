@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.personalizedstudyplanner.context.StudyPlanContext;
+import org.example.personalizedstudyplanner.exceptions.DatabaseException;
 import org.example.personalizedstudyplanner.models.StudyPlan;
 import org.example.personalizedstudyplanner.services.StudyPlanService;
 
@@ -183,7 +184,7 @@ public class SelectPlannerController {
         try {
             updatePlannerList();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 

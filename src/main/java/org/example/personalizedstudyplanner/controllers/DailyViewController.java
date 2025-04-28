@@ -10,6 +10,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import org.example.personalizedstudyplanner.exceptions.DatabaseException;
 import org.example.personalizedstudyplanner.models.Assignment;
 import org.example.personalizedstudyplanner.models.ClassSchedule;
 import org.example.personalizedstudyplanner.models.Exam;
@@ -116,7 +117,7 @@ public class DailyViewController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 

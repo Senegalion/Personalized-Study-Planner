@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.personalizedstudyplanner.exceptions.DatabaseException;
 import org.example.personalizedstudyplanner.services.StudyPlanService;
 
 import java.io.IOException;
@@ -102,7 +103,6 @@ public class CreateStudyPlanController {
             showAlert(rb.getString("success.title"), rb.getString("success.studyPlanCreated"), Alert.AlertType.INFORMATION);
             goBack(event);
         } catch (SQLException e) {
-            e.printStackTrace();
             showAlert(rb.getString("error.title"), rb.getString("error.database"), Alert.AlertType.ERROR);
         }
     }
@@ -117,17 +117,17 @@ public class CreateStudyPlanController {
 
     @FXML
     public void goBack(ActionEvent event) {
-        changeScene(event, "/org/example/personalizedstudyplanner/Dashboard.fxml");
+        changeScene(event);
     }
 
-    private void changeScene(ActionEvent event, String fxmlPath) {
+    private void changeScene(ActionEvent event) {
         try {
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath), rb);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/personalizedstudyplanner/Dashboard.fxml"), rb);
             Parent root = loader.load();
             stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 

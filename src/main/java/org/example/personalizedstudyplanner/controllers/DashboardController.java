@@ -34,7 +34,7 @@ public class DashboardController {
     private Button logoutButton;
 
     private ResourceBundle rb;
-    private Locale currentLocale = Locale.getDefault();
+    private final Locale currentLocale = Locale.getDefault();
 
     public void initialize() {
         setLanguage(currentLocale);
