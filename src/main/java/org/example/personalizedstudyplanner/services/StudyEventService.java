@@ -1,7 +1,8 @@
 package org.example.personalizedstudyplanner.services;
 
-import org.example.personalizedstudyplanner.context.StudyPlanContext;
 import org.example.personalizedstudyplanner.config.database.DatabaseUtil;
+import org.example.personalizedstudyplanner.context.StudyPlanContext;
+import org.example.personalizedstudyplanner.exceptions.FailedConnectionToTheDatabaseException;
 import org.example.personalizedstudyplanner.models.Address;
 import org.example.personalizedstudyplanner.models.Assignment;
 import org.example.personalizedstudyplanner.models.ClassSchedule;
@@ -22,7 +23,7 @@ public class StudyEventService {
         if (connection != null) {
             this.studyEventRepository = new StudyEventRepositoryImplementation(connection);
         } else {
-            throw new RuntimeException("Failed to connect to the database");
+            throw new FailedConnectionToTheDatabaseException("Failed to connect to the database");
         }
     }
 

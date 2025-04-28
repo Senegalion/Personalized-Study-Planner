@@ -7,10 +7,24 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class StudyEventRepositoryImplementation implements StudyEventRepository {
-
-    private Connection connection;
+    Logger logger = Logger.getLogger(getClass().getName());
+    public static final String STATUS_EN = "status_en";
+    public static final String STATUS_PL = "status_pl";
+    public static final String ADDRESS_ID = "address_id";
+    public static final String STATUS = "status";
+    public static final String ASSIGNMENT_ID = "assignment_id";
+    public static final String STUDY_PLAN_ID = "study_plan_id";
+    public static final String TITLE = "title";
+    public static final String DESCRIPTION = "description";
+    public static final String DUE_DATE = "due_date";
+    public static final String EXAM_ID = "exam_id";
+    public static final String SUBJECT = "subject";
+    public static final String DATE = "date";
+    public static final String CLASS_SCHEDULE_ID = "class_schedule_id";
+    private final Connection connection;
 
     public StudyEventRepositoryImplementation(Connection connection) {
         this.connection = connection;
@@ -28,13 +42,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 assignments.add(new Assignment(
-                        rs.getInt("assignment_id"),
-                        rs.getInt("study_plan_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        AssignmentStatus.valueOf(rs.getString("status_en")),
-                        AssignmentStatus.valueOf(rs.getString("status_pl"))
+                        rs.getInt(ASSIGNMENT_ID),
+                        rs.getInt(STUDY_PLAN_ID),
+                        rs.getString(TITLE),
+                        rs.getString(DESCRIPTION),
+                        rs.getObject(DUE_DATE, Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        AssignmentStatus.valueOf(rs.getString(STATUS_EN)),
+                        AssignmentStatus.valueOf(rs.getString(STATUS_PL))
                 ));
             }
         } catch (SQLException e) {
@@ -56,12 +70,12 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 exams.add(new Exam(
-                        rs.getInt("exam_id"),
-                        rs.getInt("study_plan_id"),
-                        rs.getString("subject"),
-                        rs.getObject("date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        rs.getInt("address_id"),
-                        AssignmentStatus.valueOf(rs.getString("status"))
+                        rs.getInt(EXAM_ID),
+                        rs.getInt(STUDY_PLAN_ID),
+                        rs.getString(SUBJECT),
+                        rs.getObject(DATE, Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getInt(ADDRESS_ID),
+                        AssignmentStatus.valueOf(rs.getString(STATUS))
                 ));
             }
         } catch (SQLException e) {
@@ -83,13 +97,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 classSchedules.add(new ClassSchedule(
-                        rs.getInt("class_schedule_id"),
-                        rs.getInt("study_plan_id"),
+                        rs.getInt(CLASS_SCHEDULE_ID),
+                        rs.getInt(STUDY_PLAN_ID),
                         rs.getString("day_of_week"),
                         rs.getString("class_name"),
                         rs.getObject("start_time", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
                         rs.getObject("end_time", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        rs.getInt("address_id"),
+                        rs.getInt(ADDRESS_ID),
                         rs.getString("recurrence_pattern")
                 ));
             }
@@ -173,13 +187,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 assignments.add(new Assignment(
-                        rs.getInt("assignment_id"),
-                        rs.getInt("study_plan_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        AssignmentStatus.valueOf(rs.getString("status_en")),
-                        AssignmentStatus.valueOf(rs.getString("status_pl"))
+                        rs.getInt(ASSIGNMENT_ID),
+                        rs.getInt(STUDY_PLAN_ID),
+                        rs.getString(TITLE),
+                        rs.getString(DESCRIPTION),
+                        rs.getObject(DUE_DATE, Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        AssignmentStatus.valueOf(rs.getString(STATUS_EN)),
+                        AssignmentStatus.valueOf(rs.getString(STATUS_PL))
                 ));
             }
             return assignments;
@@ -202,12 +216,12 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 exams.add(new Exam(
-                        rs.getInt("exam_id"),
-                        rs.getInt("study_plan_id"),
-                        rs.getString("subject"),
-                        rs.getObject("date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        rs.getInt("address_id"),
-                        AssignmentStatus.valueOf(rs.getString("status"))
+                        rs.getInt(EXAM_ID),
+                        rs.getInt(STUDY_PLAN_ID),
+                        rs.getString(SUBJECT),
+                        rs.getObject(DATE, Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getInt(ADDRESS_ID),
+                        AssignmentStatus.valueOf(rs.getString(STATUS))
                 ));
             }
             return exams;
@@ -230,13 +244,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 classSchedules.add(new ClassSchedule(
-                        rs.getInt("class_schedule_id"),
-                        rs.getInt("study_plan_id"),
+                        rs.getInt(CLASS_SCHEDULE_ID),
+                        rs.getInt(STUDY_PLAN_ID),
                         rs.getString("day_of_week"),
                         rs.getString("class_name"),
                         rs.getObject("start_time", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
                         rs.getObject("end_time", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        rs.getInt("address_id"),
+                        rs.getInt(ADDRESS_ID),
                         rs.getString("recurrence_pattern")
                 ));
             }
@@ -255,13 +269,13 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 assignments.add(new Assignment(
-                        rs.getInt("assignment_id"),
-                        rs.getInt("study_plan_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getObject("due_date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        AssignmentStatus.valueOf(rs.getString("status_en")),
-                        AssignmentStatus.valueOf(rs.getString("status_pl"))
+                        rs.getInt(ASSIGNMENT_ID),
+                        rs.getInt(STUDY_PLAN_ID),
+                        rs.getString(TITLE),
+                        rs.getString(DESCRIPTION),
+                        rs.getObject(DUE_DATE, Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        AssignmentStatus.valueOf(rs.getString(STATUS_EN)),
+                        AssignmentStatus.valueOf(rs.getString(STATUS_PL))
                 ));
             }
         } catch (SQLException e) {
@@ -282,12 +296,12 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             while (rs.next()) {
                 exams.add(new Exam(
-                        rs.getInt("exam_id"),
-                        rs.getInt("study_plan_id"),
-                        rs.getString("subject"),
-                        rs.getObject("date", Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
-                        rs.getInt("address_id"),
-                        AssignmentStatus.valueOf(rs.getString("status"))
+                        rs.getInt(EXAM_ID),
+                        rs.getInt(STUDY_PLAN_ID),
+                        rs.getString(SUBJECT),
+                        rs.getObject(DATE, Timestamp.class).toInstant().atOffset(java.time.ZoneOffset.UTC),
+                        rs.getInt(ADDRESS_ID),
+                        AssignmentStatus.valueOf(rs.getString(STATUS))
                 ));
             }
         } catch (SQLException e) {
@@ -309,9 +323,9 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Assignment status updated successfully in the database.");
+                logger.info("Assignment status updated successfully in the database.");
             } else {
-                System.out.println("Failed to update assignment status.");
+                logger.warning("Failed to update assignment status.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -329,9 +343,9 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Exam status updated successfully in the database.");
+                logger.info("Exam status updated successfully in the database.");
             } else {
-                System.out.println("Failed to update exam status.");
+                logger.warning("Failed to update exam status.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
