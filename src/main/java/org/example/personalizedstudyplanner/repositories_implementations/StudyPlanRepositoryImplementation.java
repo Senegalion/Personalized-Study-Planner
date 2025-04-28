@@ -73,11 +73,10 @@ public class StudyPlanRepositoryImplementation implements StudyPlanRepository {
                 int studyPlanId = rs.getInt(1);
                 studyPlan.setStudyPlanId(studyPlanId);
 
-                // insert translations
                 String insertTranslationQuery = "INSERT INTO study_plan_translation (study_plan_id, language_code, title, description) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement insertTranslationStmt = connection.prepareStatement(insertTranslationQuery)) {
+                    insertTranslationStmt.setInt(1, studyPlanId);
                     for (StudyPlanTranslation translation : studyPlan.getTranslations().values()) {
-                        insertTranslationStmt.setInt(1, studyPlanId);
                         insertTranslationStmt.setString(2, translation.getLanguageCode());
                         insertTranslationStmt.setString(3, translation.getTitle());
                         insertTranslationStmt.setString(4, translation.getDescription());

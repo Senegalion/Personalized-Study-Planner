@@ -1,5 +1,6 @@
 package org.example.personalizedstudyplanner.repositories_implementations;
 
+import org.example.personalizedstudyplanner.exceptions.DatabaseException;
 import org.example.personalizedstudyplanner.models.*;
 import org.example.personalizedstudyplanner.repositories.StudyEventRepository;
 
@@ -52,7 +53,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
 
         return assignments;
@@ -79,7 +80,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
 
         return exams;
@@ -108,7 +109,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
 
         return classSchedules;
@@ -127,7 +128,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
             stmt.setString(6, assignment.getStatusPl().name());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 
@@ -146,7 +147,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
             stmt.setString(5, exam.getStatus().name());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 
@@ -167,7 +168,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
             stmt.setString(7, classSchedule.getRecurrencePattern());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 
@@ -279,7 +280,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
 
         return assignments;
@@ -305,7 +306,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
 
         return exams;
@@ -328,7 +329,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 logger.warning("Failed to update assignment status.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 
@@ -348,7 +349,7 @@ public class StudyEventRepositoryImplementation implements StudyEventRepository 
                 logger.warning("Failed to update exam status.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Invalid");
         }
     }
 

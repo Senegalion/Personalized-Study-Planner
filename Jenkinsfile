@@ -31,5 +31,10 @@ pipeline {
                 jacoco()
             }
         }
+        stage('Performance Test') {
+            steps {
+                sh 'jmeter -n -t test-plan.jmx -l results.jtl'
+            }
+        }
     }
 }
