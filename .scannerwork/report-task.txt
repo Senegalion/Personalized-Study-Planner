@@ -2,5 +2,5 @@ projectKey=personalized-study-planner
 serverUrl=http://localhost:9000
 serverVersion=25.4.0.105899
 dashboardUrl=http://localhost:9000/dashboard?id=personalized-study-planner
-ceTaskId=1e0c2ddc-e1ea-45ce-a70e-33dad3d90bf2
-ceTaskUrl=http://localhost:9000/api/ce/task?id=1e0c2ddc-e1ea-45ce-a70e-33dad3d90bf2
+ceTaskId=72e1e406-6932-4045-9f92-3db04e6ce819
+ceTaskUrl=http://localhost:9000/api/ce/task?id=72e1e406-6932-4045-9f92-3db04e6ce819
